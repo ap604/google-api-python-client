@@ -238,6 +238,7 @@ Args:
                   },
                 ],
               },
+              &quot;confidence&quot;: 3.14, # Optional. Confidence of detected page element, if applicable. Range [0, 1].
               &quot;layoutId&quot;: &quot;A String&quot;, # Optional. Deprecated. Use PageRef.bounding_poly instead.
               &quot;layoutType&quot;: &quot;A String&quot;, # Optional. The type of the layout element that is being referenced if any.
               &quot;page&quot;: &quot;A String&quot;, # Required. Index into the Document.pages element, for example using Document.pages to locate the related page element.
@@ -252,6 +253,7 @@ Args:
           &quot;parents&quot;: [ # References to the original elements that are replaced.
             { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
               &quot;id&quot;: 42, # The id of the parent provenance.
+              &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
               &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
             },
           ],
@@ -330,6 +332,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -493,6 +496,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -542,6 +546,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -716,6 +721,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -802,6 +808,7 @@ Args:
             &quot;parents&quot;: [ # References to the original elements that are replaced.
               { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                 &quot;id&quot;: 42, # The id of the parent provenance.
+                &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                 &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
               },
             ],
@@ -924,6 +931,7 @@ Args:
                   },
                 ],
               },
+              &quot;confidence&quot;: 3.14, # Optional. Confidence of detected page element, if applicable. Range [0, 1].
               &quot;layoutId&quot;: &quot;A String&quot;, # Optional. Deprecated. Use PageRef.bounding_poly instead.
               &quot;layoutType&quot;: &quot;A String&quot;, # Optional. The type of the layout element that is being referenced if any.
               &quot;page&quot;: &quot;A String&quot;, # Required. Index into the Document.pages element, for example using Document.pages to locate the related page element.
@@ -938,6 +946,7 @@ Args:
           &quot;parents&quot;: [ # References to the original elements that are replaced.
             { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
               &quot;id&quot;: 42, # The id of the parent provenance.
+              &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
               &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
             },
           ],
@@ -1016,6 +1025,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -1179,6 +1189,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -1228,6 +1239,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -1402,6 +1414,7 @@ Args:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -1488,6 +1501,7 @@ Args:
             &quot;parents&quot;: [ # References to the original elements that are replaced.
               { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                 &quot;id&quot;: 42, # The id of the parent provenance.
+                &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                 &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
               },
             ],
@@ -1626,6 +1640,7 @@ Returns:
                   },
                 ],
               },
+              &quot;confidence&quot;: 3.14, # Optional. Confidence of detected page element, if applicable. Range [0, 1].
               &quot;layoutId&quot;: &quot;A String&quot;, # Optional. Deprecated. Use PageRef.bounding_poly instead.
               &quot;layoutType&quot;: &quot;A String&quot;, # Optional. The type of the layout element that is being referenced if any.
               &quot;page&quot;: &quot;A String&quot;, # Required. Index into the Document.pages element, for example using Document.pages to locate the related page element.
@@ -1640,6 +1655,7 @@ Returns:
           &quot;parents&quot;: [ # References to the original elements that are replaced.
             { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
               &quot;id&quot;: 42, # The id of the parent provenance.
+              &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
               &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
             },
           ],
@@ -1718,6 +1734,7 @@ Returns:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -1881,6 +1898,7 @@ Returns:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -1930,6 +1948,7 @@ Returns:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -2104,6 +2123,7 @@ Returns:
               &quot;parents&quot;: [ # References to the original elements that are replaced.
                 { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                   &quot;id&quot;: 42, # The id of the parent provenance.
+                  &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                   &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
                 },
               ],
@@ -2190,6 +2210,7 @@ Returns:
             &quot;parents&quot;: [ # References to the original elements that are replaced.
               { # Structure for referencing parent provenances. When an element replaces one of more other elements parent references identify the elements that are replaced.
                 &quot;id&quot;: 42, # The id of the parent provenance.
+                &quot;index&quot;: 42, # The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)
                 &quot;revision&quot;: 42, # The index of the [Document.revisions] identifying the parent revision.
               },
             ],
