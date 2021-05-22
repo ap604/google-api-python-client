@@ -180,7 +180,7 @@
             "memberships": {
               "methods": {
                 "create": {
-                  "description": "Adds a new Membership.",
+                  "description": "Creates a new Membership. **This is currently only supported for GKE clusters on Google Cloud**. To register other clusters, follow the instructions at https://cloud.google.com/anthos/multicluster-management/connect/registering-a-cluster.",
                   "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/memberships",
                   "httpMethod": "POST",
                   "id": "gkehub.projects.locations.memberships.create",
@@ -218,7 +218,7 @@
                   ]
                 },
                 "delete": {
-                  "description": "Removes a Membership.",
+                  "description": "Removes a Membership. **This is currently only supported for GKE clusters on Google Cloud**. To unregister other clusters, follow the instructions at https://cloud.google.com/anthos/multicluster-management/connect/unregistering-a-cluster.",
                   "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/memberships/{membershipsId}",
                   "httpMethod": "DELETE",
                   "id": "gkehub.projects.locations.memberships.delete",
@@ -248,7 +248,7 @@
                   ]
                 },
                 "generateConnectManifest": {
-                  "description": "Generates the manifest for deployment of the GKE connect agent.",
+                  "description": "Generates the manifest for deployment of the GKE connect agent. **This method is used internally by Google-provided libraries.** Most clients should not need to call this method directly.",
                   "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/memberships/{membershipsId}:generateConnectManifest",
                   "httpMethod": "GET",
                   "id": "gkehub.projects.locations.memberships.generateConnectManifest",
@@ -631,7 +631,7 @@
       }
     }
   },
-  "revision": "20210416",
+  "revision": "20210512",
   "rootUrl": "https://gkehub.googleapis.com/",
   "schemas": {
     "AuditConfig": {
@@ -693,6 +693,11 @@
         },
         "issuer": {
           "description": "Optional. A JSON Web Token (JWT) issuer URI. `issuer` must start with `https://` and be a valid URL with length <2000 characters. If set, then Google will allow valid OIDC tokens from this issuer to authenticate within the workload_identity_pool. OIDC discovery will be performed on this URI to validate tokens from the issuer. Clearing `issuer` disables Workload Identity. `issuer` cannot be directly modified; it must be cleared (and Workload Identity disabled) before using a new issuer (and re-enabling Workload Identity).",
+          "type": "string"
+        },
+        "oidcJwks": {
+          "description": "Optional. OIDC verification keys for this Membership in JWKS format (RFC 7517). When this field is set, OIDC discovery will NOT be performed on `issuer`, and instead OIDC tokens will be validated using this field.",
+          "format": "byte",
           "type": "string"
         },
         "workloadIdentityPool": {
