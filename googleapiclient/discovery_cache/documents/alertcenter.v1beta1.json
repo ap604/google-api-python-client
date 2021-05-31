@@ -243,7 +243,7 @@
               "type": "string"
             },
             "filter": {
-              "description": "Optional. A query string for filtering alert results. For more details, see [Query filters](/admin-sdk/alertcenter/guides/query-filters) and [Supported query filter fields](/admin-sdk/alertcenter/reference/filter-fields#alerts.list).",
+              "description": "Optional. A query string for filtering alert results. For more details, see [Query filters](https://developers.google.com/admin-sdk/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/admin-sdk/alertcenter/reference/filter-fields#alerts.list).",
               "location": "query",
               "type": "string"
             },
@@ -356,7 +356,7 @@
                   "type": "string"
                 },
                 "filter": {
-                  "description": "Optional. A query string for filtering alert feedback results. For more details, see [Query filters](/admin-sdk/alertcenter/guides/query-filters) and [Supported query filter fields](/admin-sdk/alertcenter/reference/filter-fields#alerts.feedback.list).",
+                  "description": "Optional. A query string for filtering alert feedback results. For more details, see [Query filters](https://developers.google.com/admin-sdk/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/admin-sdk/alertcenter/reference/filter-fields#alerts.feedback.list).",
                   "location": "query",
                   "type": "string"
                 }
@@ -423,7 +423,7 @@
       }
     }
   },
-  "revision": "20210420",
+  "revision": "20210519",
   "rootUrl": "https://alertcenter.googleapis.com/",
   "schemas": {
     "AccountWarning": {
@@ -567,7 +567,7 @@
           "type": "string"
         },
         "type": {
-          "description": "Required. The type of the alert. This is output only after alert is created. For a list of available alert types see [Google Workspace Alert types](/admin-sdk/alertcenter/reference/alert-types).",
+          "description": "Required. The type of the alert. This is output only after alert is created. For a list of available alert types see [Google Workspace Alert types](https://developers.google.com/admin-sdk/alertcenter/reference/alert-types).",
           "type": "string"
         },
         "updateTime": {
@@ -668,6 +668,22 @@
             "$ref": "RequestInfo"
           },
           "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "AppSettingsChanged": {
+      "description": "Alerts from AppSettingsChanged bucket Rules configured by Admin which contain the below rules. Calendar settings changed Drive settings changed Email settings changed Mobile settings changed",
+      "id": "AppSettingsChanged",
+      "properties": {
+        "alertDetails": {
+          "description": "Any other associated alert details, for example, AlertConfiguration.",
+          "format": "byte",
+          "type": "string"
+        },
+        "name": {
+          "description": "Rule name",
+          "type": "string"
         }
       },
       "type": "object"
@@ -1137,7 +1153,7 @@
       "type": "object"
     },
     "Notification": {
-      "description": "Settings for callback notifications. For more details see [Google Workspace Alert Notification](/admin-sdk/alertcenter/guides/notifications).",
+      "description": "Settings for callback notifications. For more details see [Google Workspace Alert Notification](https://developers.google.com/admin-sdk/alertcenter/guides/notifications).",
       "id": "Notification",
       "properties": {
         "cloudPubsubTopic": {
@@ -1179,6 +1195,27 @@
       "properties": {
         "detectorName": {
           "description": "Name that uniquely identifies the detector.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ReportingRule": {
+      "description": "Alerts from Reporting Rules configured by Admin.",
+      "id": "ReportingRule",
+      "properties": {
+        "alertDetails": {
+          "description": "Any other associated alert details, for example, AlertConfiguration.",
+          "format": "byte",
+          "type": "string"
+        },
+        "name": {
+          "description": "Rule name",
+          "type": "string"
+        },
+        "query": {
+          "description": "Alert Rule query Sample Query query { condition { filter { expected_application_id: 777491262838 expected_event_name: \"indexable_content_change\" filter_op: IN } } conjunction_operator: OR }",
+          "format": "byte",
           "type": "string"
         }
       },
@@ -1481,6 +1518,17 @@
         },
         "emailAddress": {
           "description": "Email address of the user.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "UserChanges": {
+      "description": "Alerts from UserChanges bucket Rules for predefined rules which contain the below rules. Suspended user made active New user Added User suspended (by admin) User granted admin privileges User admin privileges revoked User deleted Users password changed",
+      "id": "UserChanges",
+      "properties": {
+        "name": {
+          "description": "Rule name",
           "type": "string"
         }
       },
