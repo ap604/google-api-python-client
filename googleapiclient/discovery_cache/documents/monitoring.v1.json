@@ -133,6 +133,11 @@
                   "pattern": "^projects/[^/]+$",
                   "required": true,
                   "type": "string"
+                },
+                "validateOnly": {
+                  "description": "If set, validate the request and preview the review, but do not actually save it.",
+                  "location": "query",
+                  "type": "boolean"
                 }
               },
               "path": "v1/{+parent}/dashboards",
@@ -255,6 +260,11 @@
                   "pattern": "^projects/[^/]+/dashboards/[^/]+$",
                   "required": true,
                   "type": "string"
+                },
+                "validateOnly": {
+                  "description": "If set, validate the request and preview the review, but do not actually save it.",
+                  "location": "query",
+                  "type": "boolean"
                 }
               },
               "path": "v1/{+name}",
@@ -275,7 +285,7 @@
       }
     }
   },
-  "revision": "20210417",
+  "revision": "20210522",
   "rootUrl": "https://monitoring.googleapis.com/",
   "schemas": {
     "Aggregation": {
@@ -883,7 +893,7 @@
       "type": "object"
     },
     "SpanContext": {
-      "description": "The context of a span, attached to Exemplars in Distribution values during aggregation.It contains the name of a span with format: projects/[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID] ",
+      "description": "The context of a span. This is attached to an Exemplar in Distribution values during aggregation.It contains the name of a span with format: projects/[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID] ",
       "id": "SpanContext",
       "properties": {
         "spanName": {
