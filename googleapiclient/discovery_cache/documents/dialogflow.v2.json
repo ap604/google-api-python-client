@@ -1021,7 +1021,7 @@
                           "type": "string"
                         },
                         "parent": {
-                          "description": "Required. The agent to list all intents from. Format: `projects//agent`.",
+                          "description": "Required. The agent to list all intents from. Format: `projects//agent` or `projects//locations//agent`. Alternatively, you can specify the environment to list intents for. Format: `projects//agent/environments/` or `projects//locations//agent/environments/`. Note: training phrases of the intents will not be returned for non-draft environment.",
                           "location": "path",
                           "pattern": "^projects/[^/]+/agent/environments/[^/]+$",
                           "required": true,
@@ -1636,7 +1636,7 @@
                       "type": "string"
                     },
                     "parent": {
-                      "description": "Required. The agent to list all intents from. Format: `projects//agent`.",
+                      "description": "Required. The agent to list all intents from. Format: `projects//agent` or `projects//locations//agent`. Alternatively, you can specify the environment to list intents for. Format: `projects//agent/environments/` or `projects//locations//agent/environments/`. Note: training phrases of the intents will not be returned for non-draft environment.",
                       "location": "path",
                       "pattern": "^projects/[^/]+/agent$",
                       "required": true,
@@ -4458,6 +4458,65 @@
                     }
                   },
                   "resources": {
+                    "intents": {
+                      "methods": {
+                        "list": {
+                          "description": "Returns the list of all intents in the specified agent.",
+                          "flatPath": "v2/projects/{projectsId}/locations/{locationsId}/agent/environments/{environmentsId}/intents",
+                          "httpMethod": "GET",
+                          "id": "dialogflow.projects.locations.agent.environments.intents.list",
+                          "parameterOrder": [
+                            "parent"
+                          ],
+                          "parameters": {
+                            "intentView": {
+                              "description": "Optional. The resource view to apply to the returned intent.",
+                              "enum": [
+                                "INTENT_VIEW_UNSPECIFIED",
+                                "INTENT_VIEW_FULL"
+                              ],
+                              "enumDescriptions": [
+                                "Training phrases field is not populated in the response.",
+                                "All fields are populated."
+                              ],
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "languageCode": {
+                              "description": "Optional. The language used to access language-specific data. If not specified, the agent's default language is used. For more information, see [Multilingual intent and entity data](https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity).",
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "pageSize": {
+                              "description": "Optional. The maximum number of items to return in a single page. By default 100 and at most 1000.",
+                              "format": "int32",
+                              "location": "query",
+                              "type": "integer"
+                            },
+                            "pageToken": {
+                              "description": "Optional. The next_page_token value returned from a previous list request.",
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "parent": {
+                              "description": "Required. The agent to list all intents from. Format: `projects//agent` or `projects//locations//agent`. Alternatively, you can specify the environment to list intents for. Format: `projects//agent/environments/` or `projects//locations//agent/environments/`. Note: training phrases of the intents will not be returned for non-draft environment.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/agent/environments/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            }
+                          },
+                          "path": "v2/{+parent}/intents",
+                          "response": {
+                            "$ref": "GoogleCloudDialogflowV2ListIntentsResponse"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform",
+                            "https://www.googleapis.com/auth/dialogflow"
+                          ]
+                        }
+                      }
+                    },
                     "users": {
                       "resources": {
                         "sessions": {
@@ -5055,7 +5114,7 @@
                           "type": "string"
                         },
                         "parent": {
-                          "description": "Required. The agent to list all intents from. Format: `projects//agent`.",
+                          "description": "Required. The agent to list all intents from. Format: `projects//agent` or `projects//locations//agent`. Alternatively, you can specify the environment to list intents for. Format: `projects//agent/environments/` or `projects//locations//agent/environments/`. Note: training phrases of the intents will not be returned for non-draft environment.",
                           "location": "path",
                           "pattern": "^projects/[^/]+/locations/[^/]+/agent$",
                           "required": true,
@@ -6856,7 +6915,7 @@
       }
     }
   },
-  "revision": "20210426",
+  "revision": "20210601",
   "rootUrl": "https://dialogflow.googleapis.com/",
   "schemas": {
     "GoogleCloudDialogflowCxV3AudioInput": {
@@ -6903,6 +6962,43 @@
       },
       "type": "object"
     },
+    "GoogleCloudDialogflowCxV3ContinuousTestResult": {
+      "description": "Represents a result from running a test case in an agent environment.",
+      "id": "GoogleCloudDialogflowCxV3ContinuousTestResult",
+      "properties": {
+        "name": {
+          "description": "The resource name for the continuous test result. Format: `projects//locations//agents//environments//continuousTestResults/`.",
+          "type": "string"
+        },
+        "result": {
+          "description": "The result of this continuous test run, i.e. whether all the tests in this continuous test run pass or not.",
+          "enum": [
+            "AGGREGATED_TEST_RESULT_UNSPECIFIED",
+            "PASSED",
+            "FAILED"
+          ],
+          "enumDescriptions": [
+            "Not specified. Should never be used.",
+            "All the tests passed.",
+            "At least one test did not pass."
+          ],
+          "type": "string"
+        },
+        "runTime": {
+          "description": "Time when the continuous testing run starts.",
+          "format": "google-datetime",
+          "type": "string"
+        },
+        "testCaseResults": {
+          "description": "A list of individual test case results names in this continuous test run.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "GoogleCloudDialogflowCxV3ConversationTurn": {
       "description": "One interaction between a human and virtual agent. The human provides some input and the virtual agent provides a response.",
       "id": "GoogleCloudDialogflowCxV3ConversationTurn",
@@ -6922,6 +7018,10 @@
       "description": "The input from the human user.",
       "id": "GoogleCloudDialogflowCxV3ConversationTurnUserInput",
       "properties": {
+        "enableSentimentAnalysis": {
+          "description": "Whether sentiment analysis is enabled.",
+          "type": "boolean"
+        },
         "injectedParameters": {
           "additionalProperties": {
             "description": "Properties of the object.",
@@ -7902,6 +8002,31 @@
       },
       "type": "object"
     },
+    "GoogleCloudDialogflowCxV3RunContinuousTestMetadata": {
+      "description": "Metadata returned for the Environments.RunContinuousTest long running operation.",
+      "id": "GoogleCloudDialogflowCxV3RunContinuousTestMetadata",
+      "properties": {
+        "errors": {
+          "description": "The test errors.",
+          "items": {
+            "$ref": "GoogleCloudDialogflowCxV3TestError"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "GoogleCloudDialogflowCxV3RunContinuousTestResponse": {
+      "description": "The response message for Environments.RunContinuousTest.",
+      "id": "GoogleCloudDialogflowCxV3RunContinuousTestResponse",
+      "properties": {
+        "continuousTestResult": {
+          "$ref": "GoogleCloudDialogflowCxV3ContinuousTestResult",
+          "description": "The result for a continuous test run."
+        }
+      },
+      "type": "object"
+    },
     "GoogleCloudDialogflowCxV3RunTestCaseMetadata": {
       "description": "Metadata returned for the TestCases.RunTestCase long running operation.",
       "id": "GoogleCloudDialogflowCxV3RunTestCaseMetadata",
@@ -8404,6 +8529,43 @@
       },
       "type": "object"
     },
+    "GoogleCloudDialogflowCxV3beta1ContinuousTestResult": {
+      "description": "Represents a result from running a test case in an agent environment.",
+      "id": "GoogleCloudDialogflowCxV3beta1ContinuousTestResult",
+      "properties": {
+        "name": {
+          "description": "The resource name for the continuous test result. Format: `projects//locations//agents//environments//continuousTestResults/`.",
+          "type": "string"
+        },
+        "result": {
+          "description": "The result of this continuous test run, i.e. whether all the tests in this continuous test run pass or not.",
+          "enum": [
+            "AGGREGATED_TEST_RESULT_UNSPECIFIED",
+            "PASSED",
+            "FAILED"
+          ],
+          "enumDescriptions": [
+            "Not specified. Should never be used.",
+            "All the tests passed.",
+            "At least one test did not pass."
+          ],
+          "type": "string"
+        },
+        "runTime": {
+          "description": "Time when the continuous testing run starts.",
+          "format": "google-datetime",
+          "type": "string"
+        },
+        "testCaseResults": {
+          "description": "A list of individual test case results names in this continuous test run.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "GoogleCloudDialogflowCxV3beta1ConversationTurn": {
       "description": "One interaction between a human and virtual agent. The human provides some input and the virtual agent provides a response.",
       "id": "GoogleCloudDialogflowCxV3beta1ConversationTurn",
@@ -8423,6 +8585,10 @@
       "description": "The input from the human user.",
       "id": "GoogleCloudDialogflowCxV3beta1ConversationTurnUserInput",
       "properties": {
+        "enableSentimentAnalysis": {
+          "description": "Whether sentiment analysis is enabled.",
+          "type": "boolean"
+        },
         "injectedParameters": {
           "additionalProperties": {
             "description": "Properties of the object.",
@@ -9403,6 +9569,31 @@
       },
       "type": "object"
     },
+    "GoogleCloudDialogflowCxV3beta1RunContinuousTestMetadata": {
+      "description": "Metadata returned for the Environments.RunContinuousTest long running operation.",
+      "id": "GoogleCloudDialogflowCxV3beta1RunContinuousTestMetadata",
+      "properties": {
+        "errors": {
+          "description": "The test errors.",
+          "items": {
+            "$ref": "GoogleCloudDialogflowCxV3beta1TestError"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "GoogleCloudDialogflowCxV3beta1RunContinuousTestResponse": {
+      "description": "The response message for Environments.RunContinuousTest.",
+      "id": "GoogleCloudDialogflowCxV3beta1RunContinuousTestResponse",
+      "properties": {
+        "continuousTestResult": {
+          "$ref": "GoogleCloudDialogflowCxV3beta1ContinuousTestResult",
+          "description": "The result for a continuous test run."
+        }
+      },
+      "type": "object"
+    },
     "GoogleCloudDialogflowCxV3beta1RunTestCaseMetadata": {
       "description": "Metadata returned for the TestCases.RunTestCase long running operation.",
       "id": "GoogleCloudDialogflowCxV3beta1RunTestCaseMetadata",
@@ -9862,7 +10053,7 @@
       "type": "object"
     },
     "GoogleCloudDialogflowV2Agent": {
-      "description": "A Dialogflow agent is a virtual agent that handles conversations with your end-users. It is a natural language understanding module that understands the nuances of human language. Dialogflow translates end-user text or audio during a conversation to structured data that your apps and services can understand. You design and build a Dialogflow agent to handle the types of conversations required for your system. For more information about agents, see the [Agent guide](https://cloud.google.com/dialogflow/docs/agents-overview).",
+      "description": "A Dialogflow agent is a virtual agent that handles conversations with your end-users. It is a natural language understanding module that understands the nuances of human language. Dialogflow translates end-user text or audio during a conversation to structured data that your apps and services can understand. You design and build a Dialogflow agent to handle the types of conversations required for your system. For more information about agents, see the [Agent guide](https://cloud.google.com/dialogflow/docs/agents-overview). ",
       "id": "GoogleCloudDialogflowV2Agent",
       "properties": {
         "apiVersion": {
@@ -12968,6 +13159,10 @@
           "description": "This field is set to: - `false` if the matched intent has required parameters and not all of the required parameter values have been collected. - `true` if all required parameter values have been collected, or if the matched intent doesn't contain any required parameters.",
           "type": "boolean"
         },
+        "cancelsSlotFilling": {
+          "description": "Indicates whether the conversational query triggers a cancellation for slot filling.",
+          "type": "boolean"
+        },
         "diagnosticInfo": {
           "additionalProperties": {
             "description": "Properties of the object.",
@@ -15329,6 +15524,10 @@
         },
         "allRequiredParamsPresent": {
           "description": "This field is set to: - `false` if the matched intent has required parameters and not all of the required parameter values have been collected. - `true` if all required parameter values have been collected, or if the matched intent doesn't contain any required parameters.",
+          "type": "boolean"
+        },
+        "cancelsSlotFilling": {
+          "description": "Indicates whether the conversational query triggers a cancellation for slot filling.",
           "type": "boolean"
         },
         "diagnosticInfo": {
