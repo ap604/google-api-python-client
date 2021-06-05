@@ -93,7 +93,7 @@ h1, h2, h3 {
   <code><a href="#export_media">export_media(fileId, mimeType)</a></code></p>
 <p class="firstline">Exports a Google Doc to the requested MIME type and returns the exported content. Please note that the exported content is limited to 10MB.</p>
 <p class="toc_element">
-  <code><a href="#generateIds">generateIds(maxResults=None, space=None)</a></code></p>
+  <code><a href="#generateIds">generateIds(maxResults=None, space=None, type=None)</a></code></p>
 <p class="firstline">Generates a set of file IDs which can be provided in insert or copy requests.</p>
 <p class="toc_element">
   <code><a href="#get">get(fileId, acknowledgeAbuse=None, includePermissionsForView=None, projection=None, revisionId=None, supportsAllDrives=None, supportsTeamDrives=None, updateViewedDate=None)</a></code></p>
@@ -293,7 +293,7 @@ Args:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -678,7 +678,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -941,12 +941,13 @@ Args:
 </div>
 
 <div class="method">
-    <code class="details" id="generateIds">generateIds(maxResults=None, space=None)</code>
+    <code class="details" id="generateIds">generateIds(maxResults=None, space=None, type=None)</code>
   <pre>Generates a set of file IDs which can be provided in insert or copy requests.
 
 Args:
   maxResults: integer, Maximum number of IDs to return.
-  space: string, The space in which the IDs can be used to create new files. Supported values are &#x27;drive&#x27; and &#x27;appDataFolder&#x27;.
+  space: string, The space in which the IDs can be used to create new files. Supported values are &#x27;drive&#x27; and &#x27;appDataFolder&#x27;. (Default: &#x27;drive&#x27;)
+  type: string, The type of items which the IDs can be used for. Supported values are &#x27;files&#x27; and &#x27;shortcuts&#x27;. Note that &#x27;shortcuts&#x27; are only supported in the drive &#x27;space&#x27;. (Default: &#x27;files&#x27;)
 
 Returns:
   An object of the form:
@@ -1127,7 +1128,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -1526,7 +1527,7 @@ Args:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -1914,7 +1915,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -2316,7 +2317,7 @@ Returns:
       &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
         &quot;A String&quot;,
       ],
-      &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+      &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
         { # Information about a Drive user.
           &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
           &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -2713,7 +2714,7 @@ Args:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -3108,7 +3109,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -3489,7 +3490,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -3870,7 +3871,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -4251,7 +4252,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -4628,7 +4629,7 @@ Args:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
@@ -5025,7 +5026,7 @@ Returns:
   &quot;ownerNames&quot;: [ # Name(s) of the owner(s) of this file. Not populated for items in shared drives.
     &quot;A String&quot;,
   ],
-  &quot;owners&quot;: [ # The owner(s) of this file. Not populated for items in shared drives.
+  &quot;owners&quot;: [ # The owner of this file. Only certain legacy files may have more than one owner. This field isn&#x27;t populated for items in shared drives.
     { # Information about a Drive user.
       &quot;displayName&quot;: &quot;A String&quot;, # A plain text displayable name for this user.
       &quot;emailAddress&quot;: &quot;A String&quot;, # The email address of the user.
