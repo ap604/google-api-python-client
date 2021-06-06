@@ -204,6 +204,31 @@
           "resources": {
             "operations": {
               "methods": {
+                "cancelOperation": {
+                  "description": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.",
+                  "flatPath": "v1beta3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+                  "httpMethod": "DELETE",
+                  "id": "documentai.projects.locations.operations.cancelOperation",
+                  "parameterOrder": [
+                    "name"
+                  ],
+                  "parameters": {
+                    "name": {
+                      "description": "The name of the operation resource to be cancelled.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/operations/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1beta3/{+name}",
+                  "response": {
+                    "$ref": "GoogleProtobufEmpty"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
                 "get": {
                   "description": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service.",
                   "flatPath": "v1beta3/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
@@ -224,6 +249,47 @@
                   "path": "v1beta3/{+name}",
                   "response": {
                     "$ref": "GoogleLongrunningOperation"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "list": {
+                  "description": "Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. NOTE: the `name` binding allows API services to override the binding to use different resource name schemes, such as `users/*/operations`. To override the binding, API services can add a binding such as `\"/v1/{name=users/*}/operations\"` to their service configuration. For backwards compatibility, the default name includes the operations collection id, however overriding users must ensure the name binding is the parent resource, without the operations collection id.",
+                  "flatPath": "v1beta3/projects/{projectsId}/locations/{locationsId}/operations",
+                  "httpMethod": "GET",
+                  "id": "documentai.projects.locations.operations.list",
+                  "parameterOrder": [
+                    "name"
+                  ],
+                  "parameters": {
+                    "filter": {
+                      "description": "The standard list filter.",
+                      "location": "query",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The name of the operation's parent resource.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/operations$",
+                      "required": true,
+                      "type": "string"
+                    },
+                    "pageSize": {
+                      "description": "The standard list page size.",
+                      "format": "int32",
+                      "location": "query",
+                      "type": "integer"
+                    },
+                    "pageToken": {
+                      "description": "The standard list page token.",
+                      "location": "query",
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1beta3/{+name}",
+                  "response": {
+                    "$ref": "GoogleLongrunningListOperationsResponse"
                   },
                   "scopes": [
                     "https://www.googleapis.com/auth/cloud-platform"
@@ -535,7 +601,7 @@
       }
     }
   },
-  "revision": "20210426",
+  "revision": "20210527",
   "rootUrl": "https://documentai.googleapis.com/",
   "schemas": {
     "GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata": {
@@ -1311,6 +1377,11 @@
           "$ref": "GoogleCloudDocumentaiV1beta1BoundingPoly",
           "description": "Optional. Identifies the bounding polygon of a layout element on the page."
         },
+        "confidence": {
+          "description": "Optional. Confidence of detected page element, if applicable. Range [0, 1].",
+          "format": "float",
+          "type": "number"
+        },
         "layoutId": {
           "description": "Optional. Deprecated. Use PageRef.bounding_poly instead.",
           "type": "string"
@@ -1771,6 +1842,11 @@
       "properties": {
         "id": {
           "description": "The id of the parent provenance.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "index": {
+          "description": "The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)",
           "format": "int32",
           "type": "integer"
         },
@@ -2456,6 +2532,11 @@
           "$ref": "GoogleCloudDocumentaiV1beta2BoundingPoly",
           "description": "Optional. Identifies the bounding polygon of a layout element on the page."
         },
+        "confidence": {
+          "description": "Optional. Confidence of detected page element, if applicable. Range [0, 1].",
+          "format": "float",
+          "type": "number"
+        },
         "layoutId": {
           "description": "Optional. Deprecated. Use PageRef.bounding_poly instead.",
           "type": "string"
@@ -2916,6 +2997,11 @@
       "properties": {
         "id": {
           "description": "The id of the parent provenance.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "index": {
+          "description": "The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)",
           "format": "int32",
           "type": "integer"
         },
@@ -3472,9 +3558,37 @@
       },
       "type": "object"
     },
+    "GoogleCloudDocumentaiV1beta3DeleteProcessorMetadata": {
+      "description": "The long running operation metadata for delete processor method.",
+      "id": "GoogleCloudDocumentaiV1beta3DeleteProcessorMetadata",
+      "properties": {
+        "commonMetadata": {
+          "$ref": "GoogleCloudDocumentaiV1beta3CommonOperationMetadata",
+          "description": "The basic metadata of the long running operation."
+        }
+      },
+      "type": "object"
+    },
+    "GoogleCloudDocumentaiV1beta3DisableProcessorMetadata": {
+      "description": "The long running operation metadata for disable processor method.",
+      "id": "GoogleCloudDocumentaiV1beta3DisableProcessorMetadata",
+      "properties": {
+        "commonMetadata": {
+          "$ref": "GoogleCloudDocumentaiV1beta3CommonOperationMetadata",
+          "description": "The basic metadata of the long running operation."
+        }
+      },
+      "type": "object"
+    },
     "GoogleCloudDocumentaiV1beta3DisableProcessorRequest": {
       "description": "Request message for the disable processor method.",
       "id": "GoogleCloudDocumentaiV1beta3DisableProcessorRequest",
+      "properties": {},
+      "type": "object"
+    },
+    "GoogleCloudDocumentaiV1beta3DisableProcessorResponse": {
+      "description": "Response message for the disable processor method. Intentionally empty proto for adding fields in future.",
+      "id": "GoogleCloudDocumentaiV1beta3DisableProcessorResponse",
       "properties": {},
       "type": "object"
     },
@@ -3787,6 +3901,11 @@
         "boundingPoly": {
           "$ref": "GoogleCloudDocumentaiV1beta3BoundingPoly",
           "description": "Optional. Identifies the bounding polygon of a layout element on the page."
+        },
+        "confidence": {
+          "description": "Optional. Confidence of detected page element, if applicable. Range [0, 1].",
+          "format": "float",
+          "type": "number"
         },
         "layoutId": {
           "description": "Optional. Deprecated. Use PageRef.bounding_poly instead.",
@@ -4251,6 +4370,11 @@
           "format": "int32",
           "type": "integer"
         },
+        "index": {
+          "description": "The index of the parent revisions corresponding collection of items (eg. list of entities, properties within entities, etc.)",
+          "format": "int32",
+          "type": "integer"
+        },
         "revision": {
           "description": "The index of the [Document.revisions] identifying the parent revision.",
           "format": "int32",
@@ -4440,9 +4564,26 @@
       },
       "type": "object"
     },
+    "GoogleCloudDocumentaiV1beta3EnableProcessorMetadata": {
+      "description": "The long running operation metadata for enable processor method.",
+      "id": "GoogleCloudDocumentaiV1beta3EnableProcessorMetadata",
+      "properties": {
+        "commonMetadata": {
+          "$ref": "GoogleCloudDocumentaiV1beta3CommonOperationMetadata",
+          "description": "The basic metadata of the long running operation."
+        }
+      },
+      "type": "object"
+    },
     "GoogleCloudDocumentaiV1beta3EnableProcessorRequest": {
       "description": "Request message for the enable processor method.",
       "id": "GoogleCloudDocumentaiV1beta3EnableProcessorRequest",
+      "properties": {},
+      "type": "object"
+    },
+    "GoogleCloudDocumentaiV1beta3EnableProcessorResponse": {
+      "description": "Response message for the enable processor method. Intentionally empty proto for adding fields in future.",
+      "id": "GoogleCloudDocumentaiV1beta3EnableProcessorResponse",
       "properties": {},
       "type": "object"
     },
@@ -4780,12 +4921,16 @@
       "type": "object"
     },
     "GoogleCloudDocumentaiV1beta3ReviewDocumentRequest": {
-      "description": "Request message for review document method.",
+      "description": "Request message for review document method. Next Id: 5.",
       "id": "GoogleCloudDocumentaiV1beta3ReviewDocumentRequest",
       "properties": {
         "document": {
           "$ref": "GoogleCloudDocumentaiV1beta3Document",
           "description": "The document that needs human review."
+        },
+        "enableSchemaValidation": {
+          "description": "Whether the validation should be performed on the ad-hoc review request.",
+          "type": "boolean"
         },
         "inlineDocument": {
           "$ref": "GoogleCloudDocumentaiV1beta3Document",
@@ -4840,7 +4985,7 @@
           "type": "string"
         },
         "enumValues": {
-          "description": "For some entity types there are only a few possible values. They can be specified here.",
+          "description": "If specified, lists all the possible values for this entity.",
           "items": {
             "type": "string"
           },
@@ -4957,6 +5102,24 @@
         "name": {
           "description": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GoogleLongrunningListOperationsResponse": {
+      "description": "The response message for Operations.ListOperations.",
+      "id": "GoogleLongrunningListOperationsResponse",
+      "properties": {
+        "nextPageToken": {
+          "description": "The standard List next-page token.",
+          "type": "string"
+        },
+        "operations": {
+          "description": "A list of operations that matches the specified filter in the request.",
+          "items": {
+            "$ref": "GoogleLongrunningOperation"
+          },
+          "type": "array"
         }
       },
       "type": "object"
