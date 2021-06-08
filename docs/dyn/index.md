@@ -118,6 +118,10 @@
 * [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/assuredworkloads_v1.html)
 
 
+## baremetalsolution
+* [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/baremetalsolution_v1.html)
+
+
 ## bigquery
 * [v2](http://googleapis.github.io/google-api-python-client/docs/dyn/bigquery_v2.html)
 
@@ -345,6 +349,7 @@
 ## dfareporting
 * [v3.3](http://googleapis.github.io/google-api-python-client/docs/dyn/dfareporting_v3_3.html)
 * [v3.4](http://googleapis.github.io/google-api-python-client/docs/dyn/dfareporting_v3_4.html)
+* [v3.5](http://googleapis.github.io/google-api-python-client/docs/dyn/dfareporting_v3_5.html)
 
 
 ## dialogflow
@@ -436,6 +441,10 @@
 
 ## firebase
 * [v1beta1](http://googleapis.github.io/google-api-python-client/docs/dyn/firebase_v1beta1.html)
+
+
+## firebaseappcheck
+* [v1beta](http://googleapis.github.io/google-api-python-client/docs/dyn/firebaseappcheck_v1beta.html)
 
 
 ## firebasedatabase
@@ -544,6 +553,10 @@
 * [v1beta1](http://googleapis.github.io/google-api-python-client/docs/dyn/iap_v1beta1.html)
 
 
+## ideahub
+* [v1alpha](http://googleapis.github.io/google-api-python-client/docs/dyn/ideahub_v1alpha.html)
+
+
 ## identitytoolkit
 * [v3](http://googleapis.github.io/google-api-python-client/docs/dyn/identitytoolkit_v3.html)
 
@@ -556,6 +569,10 @@
 * [v3](http://googleapis.github.io/google-api-python-client/docs/dyn/jobs_v3.html)
 * [v3p1beta1](http://googleapis.github.io/google-api-python-client/docs/dyn/jobs_v3p1beta1.html)
 * [v4](http://googleapis.github.io/google-api-python-client/docs/dyn/jobs_v4.html)
+
+
+## keep
+* [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/keep_v1.html)
 
 
 ## kgsearch
@@ -657,6 +674,7 @@
 
 ## osconfig
 * [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/osconfig_v1.html)
+* [v1alpha](http://googleapis.github.io/google-api-python-client/docs/dyn/osconfig_v1alpha.html)
 * [v1beta](http://googleapis.github.io/google-api-python-client/docs/dyn/osconfig_v1beta.html)
 
 
@@ -701,6 +719,7 @@
 
 
 ## privateca
+* [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/privateca_v1.html)
 * [v1beta1](http://googleapis.github.io/google-api-python-client/docs/dyn/privateca_v1beta1.html)
 
 
@@ -721,6 +740,10 @@
 ## realtimebidding
 * [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/realtimebidding_v1.html)
 * [v1alpha](http://googleapis.github.io/google-api-python-client/docs/dyn/realtimebidding_v1alpha.html)
+
+
+## recaptchaenterprise
+* [v1](http://googleapis.github.io/google-api-python-client/docs/dyn/recaptchaenterprise_v1.html)
 
 
 ## recommendationengine
