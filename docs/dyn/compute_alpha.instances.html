@@ -144,6 +144,9 @@ h1, h2, h3 {
   <code><a href="#list_next">list_next(previous_request, previous_response)</a></code></p>
 <p class="firstline">Retrieves the next page of results.</p>
 <p class="toc_element">
+  <code><a href="#performMaintenance">performMaintenance(project, zone, instance, requestId=None)</a></code></p>
+<p class="firstline">Perform a manual maintenance on the instance.</p>
+<p class="toc_element">
   <code><a href="#removeResourcePolicies">removeResourcePolicies(project, zone, instance, body=None, requestId=None)</a></code></p>
 <p class="firstline">Removes resource policies from an instance.</p>
 <p class="toc_element">
@@ -459,6 +462,7 @@ Returns:
             # An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. (== resource_for {$api_version}.instances ==)
           &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
             &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+            &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
             &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
             &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
           },
@@ -773,7 +777,8 @@ Returns:
                   # This field can be both set at instance creation and update network interface operations.
               &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
                 {
-                  &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+                  &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+                  &quot;ipAllocationMode&quot;: &quot;A String&quot;,
                   &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
                       # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
                       # - regions/region/subnetworks/subnetwork
@@ -795,7 +800,7 @@ Returns:
           &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that this instance can consume from.
             &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
             &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-            &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+            &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
               &quot;A String&quot;,
             ],
           },
@@ -806,13 +811,17 @@ Returns:
             &quot;scheduling&quot;: {
               &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
             },
+            &quot;upcomingMaintenance&quot;: {
+              &quot;canReschedule&quot;: True or False, # Indicates if the maintenance can be customer triggered. See go/sf-ctm-design for more details
+            },
           },
           &quot;satisfiesPzs&quot;: True or False, # [Output Only] Reserved for future use.
-          &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Sets the scheduling options for this instance.
+          &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Sets the scheduling options for this instance.
             &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
                 #
                 # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
             &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+            &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
             &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
             &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
             &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -830,7 +839,7 @@ Returns:
             &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
             &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
           },
-          &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+          &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
             &quot;A String&quot;,
           ],
           &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource.
@@ -1201,13 +1210,14 @@ Args:
   body: object, The request body.
     The object takes the form of:
 
-{
+{ # A transient resource used in compute.instances.bulkInsert and compute.regionInstances.bulkInsert and compute.regionInstances.recommendLocations. This resource is not persisted anywhere, it is used only for processing the requests.
   &quot;count&quot;: &quot;A String&quot;, # The maximum number of instances to create.
   &quot;instance&quot;: { # Represents an Instance resource. # DEPRECATED: Please use instance_properties instead.
       #
       # An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. (== resource_for {$api_version}.instances ==)
     &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
       &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+      &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
       &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
       &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
     },
@@ -1522,7 +1532,8 @@ Args:
             # This field can be both set at instance creation and update network interface operations.
         &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
           {
-            &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+            &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+            &quot;ipAllocationMode&quot;: &quot;A String&quot;,
             &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
                 # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
                 # - regions/region/subnetworks/subnetwork
@@ -1544,7 +1555,7 @@ Args:
     &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that this instance can consume from.
       &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
       &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-      &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+      &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
         &quot;A String&quot;,
       ],
     },
@@ -1555,13 +1566,17 @@ Args:
       &quot;scheduling&quot;: {
         &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
       },
+      &quot;upcomingMaintenance&quot;: {
+        &quot;canReschedule&quot;: True or False, # Indicates if the maintenance can be customer triggered. See go/sf-ctm-design for more details
+      },
     },
     &quot;satisfiesPzs&quot;: True or False, # [Output Only] Reserved for future use.
-    &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Sets the scheduling options for this instance.
+    &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Sets the scheduling options for this instance.
       &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
           #
           # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
       &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+      &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
       &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
       &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
       &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -1579,7 +1594,7 @@ Args:
       &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
       &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
     },
-    &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+    &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
       &quot;A String&quot;,
     ],
     &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource.
@@ -1648,6 +1663,7 @@ Args:
   &quot;instanceProperties&quot;: { # The instance properties defining the VM instances to be created. Required if sourceInstanceTemplate is not provided.
     &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
       &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+      &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
       &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
       &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
     },
@@ -1915,7 +1931,8 @@ Args:
             # This field can be both set at instance creation and update network interface operations.
         &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
           {
-            &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+            &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+            &quot;ipAllocationMode&quot;: &quot;A String&quot;,
             &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
                 # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
                 # - regions/region/subnetworks/subnetwork
@@ -1936,18 +1953,19 @@ Args:
     &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that instances can consume from.
       &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
       &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-      &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+      &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
         &quot;A String&quot;,
       ],
     },
     &quot;resourcePolicies&quot;: [ # Resource policies (names, not ULRs) applied to instances created from these properties.
       &quot;A String&quot;,
     ],
-    &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Specifies the scheduling options for the instances that are created from these properties.
+    &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Specifies the scheduling options for the instances that are created from these properties.
       &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
           #
           # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
       &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+      &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
       &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
       &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
       &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -1965,6 +1983,9 @@ Args:
       &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
       &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
     },
+    &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. Maximum number of secure tags allowed is 50.
+      &quot;A String&quot;,
+    ],
     &quot;serviceAccounts&quot;: [ # A list of service accounts with specified scopes. Access tokens for these service accounts are available to the instances that are created from these properties. Use metadata queries to obtain the access tokens for these instances.
       { # A service account.
         &quot;email&quot;: &quot;A String&quot;, # Email address of the service account.
@@ -1995,9 +2016,10 @@ Args:
   &quot;locationPolicy&quot;: { # Configuration for location policy among multiple possible locations (e.g. preferences for zone selection among zones in a single region). # Policy for chosing target zone.
     &quot;locations&quot;: { # Location configurations mapped by location name. Currently only zone names are supported and must be represented as valid internal URLs, such as zones/us-central1-a.
       &quot;a_key&quot;: {
-        &quot;preference&quot;: &quot;A String&quot;, # Preference for a given locaction: ALLOW or DENY.
+        &quot;preference&quot;: &quot;A String&quot;, # Preference for a given location: ALLOW or DENY.
       },
     },
+    &quot;targetShape&quot;: &quot;A String&quot;, # Strategy for distributing VMs across zones in a region.
   },
   &quot;minCount&quot;: &quot;A String&quot;, # The minimum number of instances to create. If no min_count is specified then count is used as the default value. If min_count instances cannot be created, then no instances will be created and instances already created will be deleted.
   &quot;namePattern&quot;: &quot;A String&quot;, # The string pattern used for the names of the VMs. Either name_pattern or per_instance_properties must be set. The pattern should contain one continuous sequence of placeholder hash characters (#) with each character corresponding to one digit of the generated instance name. Example: name_pattern of inst-#### will generate instance names such as inst-0001, inst-0002, ... . If there already exist instance(s) whose names match the name pattern in the same project and zone, then the generated instance numbers will start after the biggest existing number. For example, if there exists an instance with name inst-0050, then instance names generated using the pattern inst-#### will be inst-0051, inst-0052, etc. The name pattern placeholder #...# can contain up to 18 characters.
@@ -2009,7 +2031,7 @@ Args:
   &quot;predefinedNames&quot;: [ # DEPRECATED: Please use per_instance_properties instead.
     &quot;A String&quot;,
   ],
-  &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+  &quot;secureTags&quot;: [ # DEPRECATED: Please use instance_properties.secure_tag instead. Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
     &quot;A String&quot;,
   ],
   &quot;sourceInstanceTemplate&quot;: &quot;A String&quot;, # Specifies the instance template from which to create instances. You may combine sourceInstanceTemplate with instanceProperties to override specific values from an existing instance template. Bulk API follows the semantics of JSON Merge Patch described by RFC 7396.
@@ -2355,6 +2377,7 @@ Returns:
     # An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. (== resource_for {$api_version}.instances ==)
   &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
     &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+    &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
     &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
     &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
   },
@@ -2669,7 +2692,8 @@ Returns:
           # This field can be both set at instance creation and update network interface operations.
       &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
         {
-          &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+          &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+          &quot;ipAllocationMode&quot;: &quot;A String&quot;,
           &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
               # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
               # - regions/region/subnetworks/subnetwork
@@ -2691,7 +2715,7 @@ Returns:
   &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that this instance can consume from.
     &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
     &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-    &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+    &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
       &quot;A String&quot;,
     ],
   },
@@ -2702,13 +2726,17 @@ Returns:
     &quot;scheduling&quot;: {
       &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
     },
+    &quot;upcomingMaintenance&quot;: {
+      &quot;canReschedule&quot;: True or False, # Indicates if the maintenance can be customer triggered. See go/sf-ctm-design for more details
+    },
   },
   &quot;satisfiesPzs&quot;: True or False, # [Output Only] Reserved for future use.
-  &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Sets the scheduling options for this instance.
+  &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Sets the scheduling options for this instance.
     &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
         #
         # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
     &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+    &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
     &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
     &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
     &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -2726,7 +2754,7 @@ Returns:
     &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
     &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
   },
-  &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+  &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
     &quot;A String&quot;,
   ],
   &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource.
@@ -3387,6 +3415,7 @@ Args:
     # An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. (== resource_for {$api_version}.instances ==)
   &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
     &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+    &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
     &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
     &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
   },
@@ -3701,7 +3730,8 @@ Args:
           # This field can be both set at instance creation and update network interface operations.
       &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
         {
-          &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+          &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+          &quot;ipAllocationMode&quot;: &quot;A String&quot;,
           &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
               # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
               # - regions/region/subnetworks/subnetwork
@@ -3723,7 +3753,7 @@ Args:
   &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that this instance can consume from.
     &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
     &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-    &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+    &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
       &quot;A String&quot;,
     ],
   },
@@ -3734,13 +3764,17 @@ Args:
     &quot;scheduling&quot;: {
       &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
     },
+    &quot;upcomingMaintenance&quot;: {
+      &quot;canReschedule&quot;: True or False, # Indicates if the maintenance can be customer triggered. See go/sf-ctm-design for more details
+    },
   },
   &quot;satisfiesPzs&quot;: True or False, # [Output Only] Reserved for future use.
-  &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Sets the scheduling options for this instance.
+  &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Sets the scheduling options for this instance.
     &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
         #
         # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
     &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+    &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
     &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
     &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
     &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -3758,7 +3792,7 @@ Args:
     &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
     &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
   },
-  &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+  &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
     &quot;A String&quot;,
   ],
   &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource.
@@ -3830,7 +3864,7 @@ Args:
 For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
 
 The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
-  secureTags: string, Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300. (repeated)
+  secureTags: string, DEPRECATED: Please use resource.secure_tag instead. Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50. (repeated)
   sourceInstanceTemplate: string, Specifies instance template to create the instance.
 
 This field is optional. It can be a full or partial URL. For example, the following are all valid URLs to an instance template:  
@@ -3943,6 +3977,7 @@ Returns:
         # An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. (== resource_for {$api_version}.instances ==)
       &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
         &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+        &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
         &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
         &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
       },
@@ -4257,7 +4292,8 @@ Returns:
               # This field can be both set at instance creation and update network interface operations.
           &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
             {
-              &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+              &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+              &quot;ipAllocationMode&quot;: &quot;A String&quot;,
               &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
                   # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
                   # - regions/region/subnetworks/subnetwork
@@ -4279,7 +4315,7 @@ Returns:
       &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that this instance can consume from.
         &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
         &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-        &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+        &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
           &quot;A String&quot;,
         ],
       },
@@ -4290,13 +4326,17 @@ Returns:
         &quot;scheduling&quot;: {
           &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
         },
+        &quot;upcomingMaintenance&quot;: {
+          &quot;canReschedule&quot;: True or False, # Indicates if the maintenance can be customer triggered. See go/sf-ctm-design for more details
+        },
       },
       &quot;satisfiesPzs&quot;: True or False, # [Output Only] Reserved for future use.
-      &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Sets the scheduling options for this instance.
+      &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Sets the scheduling options for this instance.
         &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
             #
             # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
         &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+        &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
         &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
         &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
         &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -4314,7 +4354,7 @@ Returns:
         &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
         &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
       },
-      &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+      &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
         &quot;A String&quot;,
       ],
       &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource.
@@ -4479,6 +4519,85 @@ Returns:
   A request object that you can call &#x27;execute()&#x27; on to request the next
   page. Returns None if there are no more items in the collection.
     </pre>
+</div>
+
+<div class="method">
+    <code class="details" id="performMaintenance">performMaintenance(project, zone, instance, requestId=None)</code>
+  <pre>Perform a manual maintenance on the instance.
+
+Args:
+  project: string, Project ID for this request. (required)
+  zone: string, The name of the zone for this request. (required)
+  instance: string, Name of the instance scoping this request. (required)
+  requestId: string, An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+
+Returns:
+  An object of the form:
+
+    { # Represents an Operation resource.
+    #
+    # Google Compute Engine has three Operation resources:
+    #
+    # * [Global](/compute/docs/reference/rest/{$api_version}/globalOperations) * [Regional](/compute/docs/reference/rest/{$api_version}/regionOperations) * [Zonal](/compute/docs/reference/rest/{$api_version}/zoneOperations)
+    #
+    # You can use an operation resource to manage asynchronous API requests. For more information, read Handling API responses.
+    #
+    # Operations can be global, regional or zonal.
+    # - For global operations, use the `globalOperations` resource.
+    # - For regional operations, use the `regionOperations` resource.
+    # - For zonal operations, use the `zonalOperations` resource.
+    #
+    # For more information, read  Global, Regional, and Zonal Resources. (== resource_for {$api_version}.globalOperations ==) (== resource_for {$api_version}.regionOperations ==) (== resource_for {$api_version}.zoneOperations ==)
+  &quot;clientOperationId&quot;: &quot;A String&quot;, # [Output Only] The value of `requestId` if you provided it in the request. Not present otherwise.
+  &quot;creationTimestamp&quot;: &quot;A String&quot;, # [Deprecated] This field is deprecated.
+  &quot;description&quot;: &quot;A String&quot;, # [Output Only] A textual description of the operation, which is set when the operation is created.
+  &quot;endTime&quot;: &quot;A String&quot;, # [Output Only] The time that this operation was completed. This value is in RFC3339 text format.
+  &quot;error&quot;: { # [Output Only] If errors are generated during processing of the operation, this field will be populated.
+    &quot;errors&quot;: [ # [Output Only] The array of errors encountered while processing this operation.
+      {
+        &quot;code&quot;: &quot;A String&quot;, # [Output Only] The error type identifier for this error.
+        &quot;location&quot;: &quot;A String&quot;, # [Output Only] Indicates the field in the request that caused the error. This property is optional.
+        &quot;message&quot;: &quot;A String&quot;, # [Output Only] An optional, human-readable error message.
+      },
+    ],
+  },
+  &quot;httpErrorMessage&quot;: &quot;A String&quot;, # [Output Only] If the operation fails, this field contains the HTTP error message that was returned, such as `NOT FOUND`.
+  &quot;httpErrorStatusCode&quot;: 42, # [Output Only] If the operation fails, this field contains the HTTP error status code that was returned. For example, a `404` means the resource was not found.
+  &quot;id&quot;: &quot;A String&quot;, # [Output Only] The unique identifier for the operation. This identifier is defined by the server.
+  &quot;insertTime&quot;: &quot;A String&quot;, # [Output Only] The time that this operation was requested. This value is in RFC3339 text format.
+  &quot;kind&quot;: &quot;compute#operation&quot;, # [Output Only] Type of the resource. Always `compute#operation` for Operation resources.
+  &quot;name&quot;: &quot;A String&quot;, # [Output Only] Name of the operation.
+  &quot;operationGroupId&quot;: &quot;A String&quot;, # [Output Only] An ID that represents a group of operations, such as when a group of operations results from a `bulkInsert` API request.
+  &quot;operationType&quot;: &quot;A String&quot;, # [Output Only] The type of operation, such as `insert`, `update`, or `delete`, and so on.
+  &quot;progress&quot;: 42, # [Output Only] An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses.
+  &quot;region&quot;: &quot;A String&quot;, # [Output Only] The URL of the region where the operation resides. Only applicable when performing regional operations.
+  &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for the resource.
+  &quot;selfLinkWithId&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource with the resource id.
+  &quot;startTime&quot;: &quot;A String&quot;, # [Output Only] The time that this operation was started by the server. This value is in RFC3339 text format.
+  &quot;status&quot;: &quot;A String&quot;, # [Output Only] The status of the operation, which can be one of the following: `PENDING`, `RUNNING`, or `DONE`.
+  &quot;statusMessage&quot;: &quot;A String&quot;, # [Output Only] An optional textual description of the current status of the operation.
+  &quot;targetId&quot;: &quot;A String&quot;, # [Output Only] The unique target ID, which identifies a specific incarnation of the target resource.
+  &quot;targetLink&quot;: &quot;A String&quot;, # [Output Only] The URL of the resource that the operation modifies. For operations related to creating a snapshot, this points to the persistent disk that the snapshot was created from.
+  &quot;user&quot;: &quot;A String&quot;, # [Output Only] User who requested the operation, for example: `user@example.com`.
+  &quot;warnings&quot;: [ # [Output Only] If warning messages are generated during processing of the operation, this field will be populated.
+    {
+      &quot;code&quot;: &quot;A String&quot;, # [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response.
+      &quot;data&quot;: [ # [Output Only] Metadata about this warning in key: value format. For example:
+          # &quot;data&quot;: [ { &quot;key&quot;: &quot;scope&quot;, &quot;value&quot;: &quot;zones/us-east1-d&quot; }
+        {
+          &quot;key&quot;: &quot;A String&quot;, # [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding).
+          &quot;value&quot;: &quot;A String&quot;, # [Output Only] A warning data value corresponding to the key.
+        },
+      ],
+      &quot;message&quot;: &quot;A String&quot;, # [Output Only] A human-readable description of the warning code.
+    },
+  ],
+  &quot;zone&quot;: &quot;A String&quot;, # [Output Only] The URL of the zone where the operation resides. Only applicable when performing per-zone operations.
+}</pre>
 </div>
 
 <div class="method">
@@ -5931,11 +6050,12 @@ Args:
   body: object, The request body.
     The object takes the form of:
 
-{ # Sets the scheduling options for an Instance. NextID: 20
+{ # Sets the scheduling options for an Instance. NextID: 21
   &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
       # 
       # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
   &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+  &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
   &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
   &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
   &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -6854,6 +6974,7 @@ Args:
     # An instance is a virtual machine that is hosted on Google Cloud Platform. For more information, read Virtual Machine Instances. (== resource_for {$api_version}.instances ==)
   &quot;advancedMachineFeatures&quot;: { # Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled). # Controls for advanced machine-related behavior features.
     &quot;enableNestedVirtualization&quot;: True or False, # Whether to enable nested virtualization or not (default is false).
+    &quot;numaNodeCount&quot;: 42, # The number of vNUMA nodes.
     &quot;threadsPerCore&quot;: 42, # The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
     &quot;visibleCoreCount&quot;: 42, # The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance&#x27;s nominal CPU count and the underlying platform&#x27;s SMT width.
   },
@@ -7168,7 +7289,8 @@ Args:
           # This field can be both set at instance creation and update network interface operations.
       &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
         {
-          &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+          &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+          &quot;ipAllocationMode&quot;: &quot;A String&quot;,
           &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
               # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
               # - regions/region/subnetworks/subnetwork
@@ -7190,7 +7312,7 @@ Args:
   &quot;reservationAffinity&quot;: { # Specifies the reservations that this instance can consume from. # Specifies the reservations that this instance can consume from.
     &quot;consumeReservationType&quot;: &quot;A String&quot;, # Specifies the type of reservation from which this instance can consume resources: ANY_RESERVATION (default), SPECIFIC_RESERVATION, or NO_RESERVATION. See  Consuming reserved instances for examples.
     &quot;key&quot;: &quot;A String&quot;, # Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
-    &quot;values&quot;: [ # Corresponds to the label values of a reservation resource.
+    &quot;values&quot;: [ # Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or &quot;projects/different-project/reservations/some-reservation-name&quot; to target a shared reservation in the same zone but in a different project.
       &quot;A String&quot;,
     ],
   },
@@ -7201,13 +7323,17 @@ Args:
     &quot;scheduling&quot;: {
       &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
     },
+    &quot;upcomingMaintenance&quot;: {
+      &quot;canReschedule&quot;: True or False, # Indicates if the maintenance can be customer triggered. See go/sf-ctm-design for more details
+    },
   },
   &quot;satisfiesPzs&quot;: True or False, # [Output Only] Reserved for future use.
-  &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 20 # Sets the scheduling options for this instance.
+  &quot;scheduling&quot;: { # Sets the scheduling options for an Instance. NextID: 21 # Sets the scheduling options for this instance.
     &quot;automaticRestart&quot;: True or False, # Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
         #
         # By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
     &quot;availabilityDomain&quot;: 42, # Specifies the availability domain (AD), which this instance should be scheduled on. The AD belongs to the spread GroupPlacementPolicy resource policy that has been assigned to the instance. Specify a value between 1-max count of availability domains in your GroupPlacementPolicy. See go/placement-policy-extension for more details.
+    &quot;hostErrorTimeoutSeconds&quot;: 42, # Specify the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
     &quot;latencyTolerant&quot;: True or False, # Defines whether the instance is tolerant of higher cpu latency. This can only be set during instance creation, or when the instance is not currently running. It must not be set if the preemptible option is also set.
     &quot;locationHint&quot;: &quot;A String&quot;, # An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
     &quot;maintenanceFreezeDurationHours&quot;: 42, # Specifies the number of hours after VM instance creation where the VM won&#x27;t be scheduled for maintenance.
@@ -7225,7 +7351,7 @@ Args:
     &quot;onHostMaintenance&quot;: &quot;A String&quot;, # Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
     &quot;preemptible&quot;: True or False, # Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
   },
-  &quot;secureTags&quot;: [ # Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 300.
+  &quot;secureTags&quot;: [ # [Input Only] Secure tags to apply to this instance. These can be later modified by the update method. Maximum number of secure tags allowed is 50.
     &quot;A String&quot;,
   ],
   &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource.
@@ -7294,7 +7420,7 @@ Args:
 
   clearSecureTag: boolean, Whether to clear secure tags from the instance.
 
-This property is mutually exclusive with the secure_tag property; you can only specify one or the other, but not both.
+This property if set to true will clear secure tags regardless of the resource.secure_tags.
   minimalAction: string, Specifies the action to take when updating an instance even if the updated properties do not require it. If not specified, then Compute Engine acts based on the minimum action that the updated properties require.
     Allowed values
       INVALID - 
@@ -7312,7 +7438,7 @@ This property is mutually exclusive with the secure_tag property; you can only s
 For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
 
 The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
-  secureTags: string, Secure tags to apply to this instance. Maximum number of secure tags allowed is 300. (repeated)
+  secureTags: string, DEPRECATED: Please use resource.secure_tag instead. Secure tags to apply to this instance. Maximum number of secure tags allowed is 50. (repeated)
 
 Returns:
   An object of the form:
@@ -7645,7 +7771,8 @@ Args:
       # This field can be both set at instance creation and update network interface operations.
   &quot;subinterfaces&quot;: [ # SubInterfaces help enable L2 communication for the instance over subnetworks that support L2. Every network interface will get a default untagged (vlan not specified) subinterface. Users can specify additional tagged subinterfaces which are sub-fields to the Network Interface.
     {
-      &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface.
+      &quot;ipAddress&quot;: &quot;A String&quot;, # An IPv4 internal IP address to assign to the instance for this subinterface. If specified, ip_allocation_mode should be set to ALLOCATE_IP.
+      &quot;ipAllocationMode&quot;: &quot;A String&quot;,
       &quot;subnetwork&quot;: &quot;A String&quot;, # If specified, this subnetwork must belong to the same network as that of the network interface. If not specified the subnet of network interface will be used. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:
           # - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
           # - regions/region/subnetworks/subnetwork
