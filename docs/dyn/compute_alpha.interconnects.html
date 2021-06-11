@@ -235,7 +235,8 @@ Returns:
       &quot;startTime&quot;: &quot;A String&quot;, # Scheduled start time for the outage (milliseconds since Unix epoch).
       &quot;state&quot;: &quot;A String&quot;, # State of this notification, which can take one of the following values:
           # - ACTIVE: This outage notification is active. The event could be in the past, present, or future. See start_time and end_time for scheduling.
-          # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start. Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
+          # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start.
+          # - COMPLETED: The outage associated with this notification is complete.  Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
     },
   ],
   &quot;googleIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the Google side of the Interconnect link. This can be used only for ping tests.
@@ -267,6 +268,7 @@ Returns:
   &quot;peerIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the customer side of the Interconnect link. The customer should configure this IP address during turnup when prompted by Google NOC. This can be used only for ping tests.
   &quot;provisionedLinkCount&quot;: 42, # [Output Only] Number of links actually provisioned in this interconnect.
   &quot;requestedLinkCount&quot;: 42, # Target number of physical links in the link bundle, as requested by the customer.
+  &quot;satisfiesPzs&quot;: True or False, # [Output Only] Set to true if the resource satisfies the zone separation organization policy constraints and false otherwise. Defaults to false if the field is not present.
   &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for the resource.
   &quot;selfLinkWithId&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource with the resource id.
   &quot;state&quot;: &quot;A String&quot;, # [Output Only] The current state of Interconnect functionality, which can take one of the following values:
@@ -572,7 +574,8 @@ Args:
       &quot;startTime&quot;: &quot;A String&quot;, # Scheduled start time for the outage (milliseconds since Unix epoch).
       &quot;state&quot;: &quot;A String&quot;, # State of this notification, which can take one of the following values:
           # - ACTIVE: This outage notification is active. The event could be in the past, present, or future. See start_time and end_time for scheduling.
-          # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start. Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
+          # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start.
+          # - COMPLETED: The outage associated with this notification is complete.  Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
     },
   ],
   &quot;googleIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the Google side of the Interconnect link. This can be used only for ping tests.
@@ -604,6 +607,7 @@ Args:
   &quot;peerIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the customer side of the Interconnect link. The customer should configure this IP address during turnup when prompted by Google NOC. This can be used only for ping tests.
   &quot;provisionedLinkCount&quot;: 42, # [Output Only] Number of links actually provisioned in this interconnect.
   &quot;requestedLinkCount&quot;: 42, # Target number of physical links in the link bundle, as requested by the customer.
+  &quot;satisfiesPzs&quot;: True or False, # [Output Only] Set to true if the resource satisfies the zone separation organization policy constraints and false otherwise. Defaults to false if the field is not present.
   &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for the resource.
   &quot;selfLinkWithId&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource with the resource id.
   &quot;state&quot;: &quot;A String&quot;, # [Output Only] The current state of Interconnect functionality, which can take one of the following values:
@@ -741,7 +745,8 @@ Returns:
           &quot;startTime&quot;: &quot;A String&quot;, # Scheduled start time for the outage (milliseconds since Unix epoch).
           &quot;state&quot;: &quot;A String&quot;, # State of this notification, which can take one of the following values:
               # - ACTIVE: This outage notification is active. The event could be in the past, present, or future. See start_time and end_time for scheduling.
-              # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start. Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
+              # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start.
+              # - COMPLETED: The outage associated with this notification is complete.  Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
         },
       ],
       &quot;googleIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the Google side of the Interconnect link. This can be used only for ping tests.
@@ -773,6 +778,7 @@ Returns:
       &quot;peerIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the customer side of the Interconnect link. The customer should configure this IP address during turnup when prompted by Google NOC. This can be used only for ping tests.
       &quot;provisionedLinkCount&quot;: 42, # [Output Only] Number of links actually provisioned in this interconnect.
       &quot;requestedLinkCount&quot;: 42, # Target number of physical links in the link bundle, as requested by the customer.
+      &quot;satisfiesPzs&quot;: True or False, # [Output Only] Set to true if the resource satisfies the zone separation organization policy constraints and false otherwise. Defaults to false if the field is not present.
       &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for the resource.
       &quot;selfLinkWithId&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource with the resource id.
       &quot;state&quot;: &quot;A String&quot;, # [Output Only] The current state of Interconnect functionality, which can take one of the following values:
@@ -852,7 +858,8 @@ Args:
       &quot;startTime&quot;: &quot;A String&quot;, # Scheduled start time for the outage (milliseconds since Unix epoch).
       &quot;state&quot;: &quot;A String&quot;, # State of this notification, which can take one of the following values:
           # - ACTIVE: This outage notification is active. The event could be in the past, present, or future. See start_time and end_time for scheduling.
-          # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start. Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
+          # - CANCELLED: The outage associated with this notification was cancelled before the outage was due to start.
+          # - COMPLETED: The outage associated with this notification is complete.  Note that the versions of this enum prefixed with &quot;NS_&quot; have been deprecated in favor of the unprefixed values.
     },
   ],
   &quot;googleIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the Google side of the Interconnect link. This can be used only for ping tests.
@@ -884,6 +891,7 @@ Args:
   &quot;peerIpAddress&quot;: &quot;A String&quot;, # [Output Only] IP address configured on the customer side of the Interconnect link. The customer should configure this IP address during turnup when prompted by Google NOC. This can be used only for ping tests.
   &quot;provisionedLinkCount&quot;: 42, # [Output Only] Number of links actually provisioned in this interconnect.
   &quot;requestedLinkCount&quot;: 42, # Target number of physical links in the link bundle, as requested by the customer.
+  &quot;satisfiesPzs&quot;: True or False, # [Output Only] Set to true if the resource satisfies the zone separation organization policy constraints and false otherwise. Defaults to false if the field is not present.
   &quot;selfLink&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for the resource.
   &quot;selfLinkWithId&quot;: &quot;A String&quot;, # [Output Only] Server-defined URL for this resource with the resource id.
   &quot;state&quot;: &quot;A String&quot;, # [Output Only] The current state of Interconnect functionality, which can take one of the following values:
