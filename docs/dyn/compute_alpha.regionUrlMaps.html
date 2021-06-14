@@ -246,12 +246,12 @@ Returns:
       ],
       &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
     },
-    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
         # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-        # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
       &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
         &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
             # The value must be between 200 and 599 inclusive.
+            # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
         &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
             # The value must be between 0.0 and 100.0 inclusive.
       },
@@ -282,7 +282,7 @@ Returns:
         &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
         &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
       },
-      &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+      &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
           # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
           # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
           # -
@@ -447,12 +447,12 @@ Returns:
           ],
           &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
         },
-        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
             # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-            # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
           &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
             &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                 # The value must be between 200 and 599 inclusive.
+                # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
             &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                 # The value must be between 0.0 and 100.0 inclusive.
           },
@@ -483,7 +483,7 @@ Returns:
             &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
             &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
           },
-          &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+          &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
               # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
               # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
               # -
@@ -643,12 +643,12 @@ Returns:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -679,7 +679,7 @@ Returns:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -937,12 +937,12 @@ Returns:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -973,7 +973,7 @@ Returns:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -1153,12 +1153,12 @@ Args:
       ],
       &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
     },
-    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
         # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-        # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
       &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
         &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
             # The value must be between 200 and 599 inclusive.
+            # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
         &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
             # The value must be between 0.0 and 100.0 inclusive.
       },
@@ -1189,7 +1189,7 @@ Args:
         &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
         &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
       },
-      &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+      &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
           # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
           # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
           # -
@@ -1354,12 +1354,12 @@ Args:
           ],
           &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
         },
-        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
             # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-            # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
           &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
             &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                 # The value must be between 200 and 599 inclusive.
+                # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
             &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                 # The value must be between 0.0 and 100.0 inclusive.
           },
@@ -1390,7 +1390,7 @@ Args:
             &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
             &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
           },
-          &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+          &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
               # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
               # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
               # -
@@ -1550,12 +1550,12 @@ Args:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -1586,7 +1586,7 @@ Args:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -1844,12 +1844,12 @@ Args:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -1880,7 +1880,7 @@ Args:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -2230,12 +2230,12 @@ Returns:
           ],
           &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
         },
-        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
             # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-            # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
           &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
             &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                 # The value must be between 200 and 599 inclusive.
+                # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
             &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                 # The value must be between 0.0 and 100.0 inclusive.
           },
@@ -2266,7 +2266,7 @@ Returns:
             &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
             &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
           },
-          &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+          &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
               # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
               # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
               # -
@@ -2431,12 +2431,12 @@ Returns:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -2467,7 +2467,7 @@ Returns:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -2627,12 +2627,12 @@ Returns:
                   ],
                   &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
                 },
-                &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+                &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                     # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                    # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
                   &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                     &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                         # The value must be between 200 and 599 inclusive.
+                        # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                     &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                         # The value must be between 0.0 and 100.0 inclusive.
                   },
@@ -2663,7 +2663,7 @@ Returns:
                     &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                     &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
                   },
-                  &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+                  &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                       # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                       # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                       # -
@@ -2921,12 +2921,12 @@ Returns:
                   ],
                   &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
                 },
-                &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+                &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                     # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                    # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
                   &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                     &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                         # The value must be between 200 and 599 inclusive.
+                        # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                     &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                         # The value must be between 0.0 and 100.0 inclusive.
                   },
@@ -2957,7 +2957,7 @@ Returns:
                     &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                     &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
                   },
-                  &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+                  &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                       # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                       # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                       # -
@@ -3168,12 +3168,12 @@ Args:
       ],
       &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
     },
-    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
         # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-        # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
       &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
         &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
             # The value must be between 200 and 599 inclusive.
+            # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
         &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
             # The value must be between 0.0 and 100.0 inclusive.
       },
@@ -3204,7 +3204,7 @@ Args:
         &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
         &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
       },
-      &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+      &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
           # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
           # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
           # -
@@ -3369,12 +3369,12 @@ Args:
           ],
           &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
         },
-        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
             # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-            # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
           &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
             &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                 # The value must be between 200 and 599 inclusive.
+                # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
             &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                 # The value must be between 0.0 and 100.0 inclusive.
           },
@@ -3405,7 +3405,7 @@ Args:
             &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
             &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
           },
-          &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+          &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
               # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
               # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
               # -
@@ -3565,12 +3565,12 @@ Args:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -3601,7 +3601,7 @@ Args:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -3859,12 +3859,12 @@ Args:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -3895,7 +3895,7 @@ Args:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -4170,12 +4170,12 @@ Args:
       ],
       &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
     },
-    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+    &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
         # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-        # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
       &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
         &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
             # The value must be between 200 and 599 inclusive.
+            # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
         &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
             # The value must be between 0.0 and 100.0 inclusive.
       },
@@ -4206,7 +4206,7 @@ Args:
         &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
         &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
       },
-      &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+      &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
           # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
           # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
           # -
@@ -4371,12 +4371,12 @@ Args:
           ],
           &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
         },
-        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+        &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
             # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-            # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
           &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
             &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                 # The value must be between 200 and 599 inclusive.
+                # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
             &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                 # The value must be between 0.0 and 100.0 inclusive.
           },
@@ -4407,7 +4407,7 @@ Args:
             &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
             &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
           },
-          &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+          &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
               # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
               # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
               # -
@@ -4567,12 +4567,12 @@ Args:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -4603,7 +4603,7 @@ Args:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -4861,12 +4861,12 @@ Args:
               ],
               &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
             },
-            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+            &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                 # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
               &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                 &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                     # The value must be between 200 and 599 inclusive.
+                    # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                 &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                     # The value must be between 0.0 and 100.0 inclusive.
               },
@@ -4897,7 +4897,7 @@ Args:
                 &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                 &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
               },
-              &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+              &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                   # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                   # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                   # -
@@ -5145,12 +5145,12 @@ Args:
         ],
         &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
       },
-      &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+      &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
           # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-          # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
         &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
           &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
               # The value must be between 200 and 599 inclusive.
+              # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
           &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
               # The value must be between 0.0 and 100.0 inclusive.
         },
@@ -5181,7 +5181,7 @@ Args:
           &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
           &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
         },
-        &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+        &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
             # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
             # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
             # -
@@ -5346,12 +5346,12 @@ Args:
             ],
             &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
           },
-          &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+          &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
               # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-              # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
             &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
               &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                   # The value must be between 200 and 599 inclusive.
+                  # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
               &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                   # The value must be between 0.0 and 100.0 inclusive.
             },
@@ -5382,7 +5382,7 @@ Args:
               &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
               &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
             },
-            &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+            &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                 # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                 # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                 # -
@@ -5542,12 +5542,12 @@ Args:
                 ],
                 &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
               },
-              &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+              &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                   # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                  # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
                 &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                   &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                       # The value must be between 200 and 599 inclusive.
+                      # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                   &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                       # The value must be between 0.0 and 100.0 inclusive.
                 },
@@ -5578,7 +5578,7 @@ Args:
                   &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                   &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
                 },
-                &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+                &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                     # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                     # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                     # -
@@ -5836,12 +5836,12 @@ Args:
                 ],
                 &quot;maxAge&quot;: 42, # Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
               },
-              &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+              &quot;faultInjectionPolicy&quot;: { # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. # The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection,
                   # timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
-                  # Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
                 &quot;abort&quot;: { # Specification for how requests are aborted as part of fault injection. # The specification for how client requests are aborted as part of fault injection.
                   &quot;httpStatus&quot;: 42, # The HTTP status code used to abort the request.
                       # The value must be between 200 and 599 inclusive.
+                      # For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this  mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
                   &quot;percentage&quot;: 3.14, # The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection.
                       # The value must be between 0.0 and 100.0 inclusive.
                 },
@@ -5872,7 +5872,7 @@ Args:
                   &quot;nanos&quot;: 42, # Span of time that&#x27;s a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
                   &quot;seconds&quot;: &quot;A String&quot;, # Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
                 },
-                &quot;retryConditions&quot;: [ # Specfies one or more conditions when this retry rule applies. Valid values are:
+                &quot;retryConditions&quot;: [ # Specifies one or more conditions when this retry rule applies. Valid values are:
                     # - 5xx: Loadbalancer will attempt a retry if the backend service responds with any 5xx response code, or if the backend service does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams.
                     # - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504.
                     # -
