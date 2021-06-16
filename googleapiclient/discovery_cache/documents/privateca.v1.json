@@ -20,7 +20,7 @@
     "x16": "http://www.google.com/images/icons/product/search-16.gif",
     "x32": "http://www.google.com/images/icons/product/search-32.gif"
   },
-  "id": "privateca:v1beta1",
+  "id": "privateca:v1",
   "kind": "discovery#restDescription",
   "mtlsRootUrl": "https://privateca.mtls.googleapis.com/",
   "name": "privateca",
@@ -111,7 +111,7 @@
           "methods": {
             "get": {
               "description": "Gets information about a location.",
-              "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}",
+              "flatPath": "v1/projects/{projectsId}/locations/{locationsId}",
               "httpMethod": "GET",
               "id": "privateca.projects.locations.get",
               "parameterOrder": [
@@ -126,7 +126,7 @@
                   "type": "string"
                 }
               },
-              "path": "v1beta1/{+name}",
+              "path": "v1/{+name}",
               "response": {
                 "$ref": "Location"
               },
@@ -136,7 +136,7 @@
             },
             "list": {
               "description": "Lists information about the supported locations for this service.",
-              "flatPath": "v1beta1/projects/{projectsId}/locations",
+              "flatPath": "v1/projects/{projectsId}/locations",
               "httpMethod": "GET",
               "id": "privateca.projects.locations.list",
               "parameterOrder": [
@@ -167,7 +167,7 @@
                   "type": "string"
                 }
               },
-              "path": "v1beta1/{+name}/locations",
+              "path": "v1/{+name}/locations",
               "response": {
                 "$ref": "ListLocationsResponse"
               },
@@ -177,52 +177,24 @@
             }
           },
           "resources": {
-            "certificateAuthorities": {
+            "caPools": {
               "methods": {
-                "activate": {
-                  "description": "Activate a CertificateAuthority that is in state PENDING_ACTIVATION and is of type SUBORDINATE. After the parent Certificate Authority signs a certificate signing request from FetchCertificateAuthorityCsr, this method can complete the activation process.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:activate",
-                  "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.activate",
-                  "parameterOrder": [
-                    "name"
-                  ],
-                  "parameters": {
-                    "name": {
-                      "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+name}:activate",
-                  "request": {
-                    "$ref": "ActivateCertificateAuthorityRequest"
-                  },
-                  "response": {
-                    "$ref": "Operation"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
                 "create": {
-                  "description": "Create a new CertificateAuthority in a given Project and Location.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities",
+                  "description": "Create a CaPool.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools",
                   "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.create",
+                  "id": "privateca.projects.locations.caPools.create",
                   "parameterOrder": [
                     "parent"
                   ],
                   "parameters": {
-                    "certificateAuthorityId": {
+                    "caPoolId": {
                       "description": "Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`",
                       "location": "query",
                       "type": "string"
                     },
                     "parent": {
-                      "description": "Required. The resource name of the location associated with the CertificateAuthorities, in the format `projects/*/locations/*`.",
+                      "description": "Required. The resource name of the location associated with the CaPool, in the format `projects/*/locations/*`.",
                       "location": "path",
                       "pattern": "^projects/[^/]+/locations/[^/]+$",
                       "required": true,
@@ -234,9 +206,9 @@
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+parent}/certificateAuthorities",
+                  "path": "v1/{+parent}/caPools",
                   "request": {
-                    "$ref": "CertificateAuthority"
+                    "$ref": "CaPool"
                   },
                   "response": {
                     "$ref": "Operation"
@@ -245,107 +217,84 @@
                     "https://www.googleapis.com/auth/cloud-platform"
                   ]
                 },
-                "disable": {
-                  "description": "Disable a CertificateAuthority.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:disable",
+                "delete": {
+                  "description": "Delete a CaPool.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}",
+                  "httpMethod": "DELETE",
+                  "id": "privateca.projects.locations.caPools.delete",
+                  "parameterOrder": [
+                    "name"
+                  ],
+                  "parameters": {
+                    "name": {
+                      "description": "Required. The resource name for this CaPool in the format `projects/*/locations/*/caPools/*`.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                      "location": "query",
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+name}",
+                  "response": {
+                    "$ref": "Operation"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "fetchCaCerts": {
+                  "description": "FetchCaCerts returns the current trust anchor for the CaPool. This will include CA certificate chains for all ACTIVE CertificateAuthority resources in the CaPool.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}:fetchCaCerts",
                   "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.disable",
+                  "id": "privateca.projects.locations.caPools.fetchCaCerts",
                   "parameterOrder": [
-                    "name"
+                    "caPool"
                   ],
                   "parameters": {
-                    "name": {
-                      "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
+                    "caPool": {
+                      "description": "Required. The resource name for the CaPool in the format `projects/*/locations/*/caPools/*`.",
                       "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                       "required": true,
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}:disable",
+                  "path": "v1/{+caPool}:fetchCaCerts",
                   "request": {
-                    "$ref": "DisableCertificateAuthorityRequest"
+                    "$ref": "FetchCaCertsRequest"
                   },
                   "response": {
-                    "$ref": "Operation"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "enable": {
-                  "description": "Enable a CertificateAuthority.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:enable",
-                  "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.enable",
-                  "parameterOrder": [
-                    "name"
-                  ],
-                  "parameters": {
-                    "name": {
-                      "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+name}:enable",
-                  "request": {
-                    "$ref": "EnableCertificateAuthorityRequest"
-                  },
-                  "response": {
-                    "$ref": "Operation"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "fetch": {
-                  "description": "Fetch a certificate signing request (CSR) from a CertificateAuthority that is in state PENDING_ACTIVATION and is of type SUBORDINATE. The CSR must then be signed by the desired parent Certificate Authority, which could be another CertificateAuthority resource, or could be an on-prem certificate authority. See also ActivateCertificateAuthority.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:fetch",
-                  "httpMethod": "GET",
-                  "id": "privateca.projects.locations.certificateAuthorities.fetch",
-                  "parameterOrder": [
-                    "name"
-                  ],
-                  "parameters": {
-                    "name": {
-                      "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+name}:fetch",
-                  "response": {
-                    "$ref": "FetchCertificateAuthorityCsrResponse"
+                    "$ref": "FetchCaCertsResponse"
                   },
                   "scopes": [
                     "https://www.googleapis.com/auth/cloud-platform"
                   ]
                 },
                 "get": {
-                  "description": "Returns a CertificateAuthority.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}",
+                  "description": "Returns a CaPool.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}",
                   "httpMethod": "GET",
-                  "id": "privateca.projects.locations.certificateAuthorities.get",
+                  "id": "privateca.projects.locations.caPools.get",
                   "parameterOrder": [
                     "name"
                   ],
                   "parameters": {
                     "name": {
-                      "description": "Required. The name of the CertificateAuthority to get.",
+                      "description": "Required. The name of the CaPool to get.",
                       "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                       "required": true,
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}",
+                  "path": "v1/{+name}",
                   "response": {
-                    "$ref": "CertificateAuthority"
+                    "$ref": "CaPool"
                   },
                   "scopes": [
                     "https://www.googleapis.com/auth/cloud-platform"
@@ -353,9 +302,9 @@
                 },
                 "getIamPolicy": {
                   "description": "Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:getIamPolicy",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}:getIamPolicy",
                   "httpMethod": "GET",
-                  "id": "privateca.projects.locations.certificateAuthorities.getIamPolicy",
+                  "id": "privateca.projects.locations.caPools.getIamPolicy",
                   "parameterOrder": [
                     "resource"
                   ],
@@ -369,12 +318,12 @@
                     "resource": {
                       "description": "REQUIRED: The resource for which the policy is being requested. See the operation documentation for the appropriate value for this field.",
                       "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                       "required": true,
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+resource}:getIamPolicy",
+                  "path": "v1/{+resource}:getIamPolicy",
                   "response": {
                     "$ref": "Policy"
                   },
@@ -383,10 +332,10 @@
                   ]
                 },
                 "list": {
-                  "description": "Lists CertificateAuthorities.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities",
+                  "description": "Lists CaPools.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools",
                   "httpMethod": "GET",
-                  "id": "privateca.projects.locations.certificateAuthorities.list",
+                  "id": "privateca.projects.locations.caPools.list",
                   "parameterOrder": [
                     "parent"
                   ],
@@ -402,45 +351,45 @@
                       "type": "string"
                     },
                     "pageSize": {
-                      "description": "Optional. Limit on the number of CertificateAuthorities to include in the response. Further CertificateAuthorities can subsequently be obtained by including the ListCertificateAuthoritiesResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
+                      "description": "Optional. Limit on the number of CaPools to include in the response. Further CaPools can subsequently be obtained by including the ListCaPoolsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
                       "format": "int32",
                       "location": "query",
                       "type": "integer"
                     },
                     "pageToken": {
-                      "description": "Optional. Pagination token, returned earlier via ListCertificateAuthoritiesResponse.next_page_token.",
+                      "description": "Optional. Pagination token, returned earlier via ListCaPoolsResponse.next_page_token.",
                       "location": "query",
                       "type": "string"
                     },
                     "parent": {
-                      "description": "Required. The resource name of the location associated with the CertificateAuthorities, in the format `projects/*/locations/*`.",
+                      "description": "Required. The resource name of the location associated with the CaPools, in the format `projects/*/locations/*`.",
                       "location": "path",
                       "pattern": "^projects/[^/]+/locations/[^/]+$",
                       "required": true,
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+parent}/certificateAuthorities",
+                  "path": "v1/{+parent}/caPools",
                   "response": {
-                    "$ref": "ListCertificateAuthoritiesResponse"
+                    "$ref": "ListCaPoolsResponse"
                   },
                   "scopes": [
                     "https://www.googleapis.com/auth/cloud-platform"
                   ]
                 },
                 "patch": {
-                  "description": "Update a CertificateAuthority.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}",
+                  "description": "Update a CaPool.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}",
                   "httpMethod": "PATCH",
-                  "id": "privateca.projects.locations.certificateAuthorities.patch",
+                  "id": "privateca.projects.locations.caPools.patch",
                   "parameterOrder": [
                     "name"
                   ],
                   "parameters": {
                     "name": {
-                      "description": "Output only. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
+                      "description": "Output only. The resource name for this CaPool in the format `projects/*/locations/*/caPools/*`.",
                       "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                       "required": true,
                       "type": "string"
                     },
@@ -456,65 +405,9 @@
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}",
+                  "path": "v1/{+name}",
                   "request": {
-                    "$ref": "CertificateAuthority"
-                  },
-                  "response": {
-                    "$ref": "Operation"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "restore": {
-                  "description": "Restore a CertificateAuthority that is scheduled for deletion.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:restore",
-                  "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.restore",
-                  "parameterOrder": [
-                    "name"
-                  ],
-                  "parameters": {
-                    "name": {
-                      "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+name}:restore",
-                  "request": {
-                    "$ref": "RestoreCertificateAuthorityRequest"
-                  },
-                  "response": {
-                    "$ref": "Operation"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "scheduleDelete": {
-                  "description": "Schedule a CertificateAuthority for deletion.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:scheduleDelete",
-                  "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.scheduleDelete",
-                  "parameterOrder": [
-                    "name"
-                  ],
-                  "parameters": {
-                    "name": {
-                      "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+name}:scheduleDelete",
-                  "request": {
-                    "$ref": "ScheduleDeleteCertificateAuthorityRequest"
+                    "$ref": "CaPool"
                   },
                   "response": {
                     "$ref": "Operation"
@@ -525,9 +418,9 @@
                 },
                 "setIamPolicy": {
                   "description": "Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:setIamPolicy",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}:setIamPolicy",
                   "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.setIamPolicy",
+                  "id": "privateca.projects.locations.caPools.setIamPolicy",
                   "parameterOrder": [
                     "resource"
                   ],
@@ -535,12 +428,12 @@
                     "resource": {
                       "description": "REQUIRED: The resource for which the policy is being specified. See the operation documentation for the appropriate value for this field.",
                       "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                       "required": true,
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+resource}:setIamPolicy",
+                  "path": "v1/{+resource}:setIamPolicy",
                   "request": {
                     "$ref": "SetIamPolicyRequest"
                   },
@@ -553,9 +446,9 @@
                 },
                 "testIamPermissions": {
                   "description": "Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may \"fail open\" without warning.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}:testIamPermissions",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}:testIamPermissions",
                   "httpMethod": "POST",
-                  "id": "privateca.projects.locations.certificateAuthorities.testIamPermissions",
+                  "id": "privateca.projects.locations.caPools.testIamPermissions",
                   "parameterOrder": [
                     "resource"
                   ],
@@ -563,12 +456,12 @@
                     "resource": {
                       "description": "REQUIRED: The resource for which the policy detail is being requested. See the operation documentation for the appropriate value for this field.",
                       "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                       "required": true,
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+resource}:testIamPermissions",
+                  "path": "v1/{+resource}:testIamPermissions",
                   "request": {
                     "$ref": "TestIamPermissionsRequest"
                   },
@@ -581,69 +474,220 @@
                 }
               },
               "resources": {
-                "certificateRevocationLists": {
+                "certificateAuthorities": {
                   "methods": {
-                    "get": {
-                      "description": "Returns a CertificateRevocationList.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}",
-                      "httpMethod": "GET",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificateRevocationLists.get",
+                    "activate": {
+                      "description": "Activate a CertificateAuthority that is in state AWAITING_USER_ACTIVATION and is of type SUBORDINATE. After the parent Certificate Authority signs a certificate signing request from FetchCertificateAuthorityCsr, this method can complete the activation process.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}:activate",
+                      "httpMethod": "POST",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.activate",
                       "parameterOrder": [
                         "name"
                       ],
                       "parameters": {
                         "name": {
-                          "description": "Required. The name of the CertificateRevocationList to get.",
+                          "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+name}",
+                      "path": "v1/{+name}:activate",
+                      "request": {
+                        "$ref": "ActivateCertificateAuthorityRequest"
+                      },
                       "response": {
-                        "$ref": "CertificateRevocationList"
+                        "$ref": "Operation"
                       },
                       "scopes": [
                         "https://www.googleapis.com/auth/cloud-platform"
                       ]
                     },
-                    "getIamPolicy": {
-                      "description": "Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}:getIamPolicy",
-                      "httpMethod": "GET",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificateRevocationLists.getIamPolicy",
+                    "create": {
+                      "description": "Create a new CertificateAuthority in a given Project and Location.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities",
+                      "httpMethod": "POST",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.create",
                       "parameterOrder": [
-                        "resource"
+                        "parent"
                       ],
                       "parameters": {
-                        "options.requestedPolicyVersion": {
-                          "description": "Optional. The policy format version to be returned. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional bindings must specify version 3. Policies without any conditional bindings may specify any valid value or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies).",
-                          "format": "int32",
+                        "certificateAuthorityId": {
+                          "description": "Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`",
                           "location": "query",
-                          "type": "integer"
+                          "type": "string"
                         },
-                        "resource": {
-                          "description": "REQUIRED: The resource for which the policy is being requested. See the operation documentation for the appropriate value for this field.",
+                        "parent": {
+                          "description": "Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/*/locations/*/caPools/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
+                          "required": true,
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                          "location": "query",
+                          "type": "string"
+                        }
+                      },
+                      "path": "v1/{+parent}/certificateAuthorities",
+                      "request": {
+                        "$ref": "CertificateAuthority"
+                      },
+                      "response": {
+                        "$ref": "Operation"
+                      },
+                      "scopes": [
+                        "https://www.googleapis.com/auth/cloud-platform"
+                      ]
+                    },
+                    "delete": {
+                      "description": "Delete a CertificateAuthority.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}",
+                      "httpMethod": "DELETE",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.delete",
+                      "parameterOrder": [
+                        "name"
+                      ],
+                      "parameters": {
+                        "ignoreActiveCertificates": {
+                          "description": "Optional. This field allows the CA to be deleted even if the CA has active certs. Active certs include both unrevoked and unexpired certs.",
+                          "location": "query",
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
+                          "location": "path",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
+                          "required": true,
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                          "location": "query",
+                          "type": "string"
+                        }
+                      },
+                      "path": "v1/{+name}",
+                      "response": {
+                        "$ref": "Operation"
+                      },
+                      "scopes": [
+                        "https://www.googleapis.com/auth/cloud-platform"
+                      ]
+                    },
+                    "disable": {
+                      "description": "Disable a CertificateAuthority.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}:disable",
+                      "httpMethod": "POST",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.disable",
+                      "parameterOrder": [
+                        "name"
+                      ],
+                      "parameters": {
+                        "name": {
+                          "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
+                          "location": "path",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+resource}:getIamPolicy",
+                      "path": "v1/{+name}:disable",
+                      "request": {
+                        "$ref": "DisableCertificateAuthorityRequest"
+                      },
                       "response": {
-                        "$ref": "Policy"
+                        "$ref": "Operation"
+                      },
+                      "scopes": [
+                        "https://www.googleapis.com/auth/cloud-platform"
+                      ]
+                    },
+                    "enable": {
+                      "description": "Enable a CertificateAuthority.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}:enable",
+                      "httpMethod": "POST",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.enable",
+                      "parameterOrder": [
+                        "name"
+                      ],
+                      "parameters": {
+                        "name": {
+                          "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
+                          "location": "path",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
+                          "required": true,
+                          "type": "string"
+                        }
+                      },
+                      "path": "v1/{+name}:enable",
+                      "request": {
+                        "$ref": "EnableCertificateAuthorityRequest"
+                      },
+                      "response": {
+                        "$ref": "Operation"
+                      },
+                      "scopes": [
+                        "https://www.googleapis.com/auth/cloud-platform"
+                      ]
+                    },
+                    "fetch": {
+                      "description": "Fetch a certificate signing request (CSR) from a CertificateAuthority that is in state AWAITING_USER_ACTIVATION and is of type SUBORDINATE. The CSR must then be signed by the desired parent Certificate Authority, which could be another CertificateAuthority resource, or could be an on-prem certificate authority. See also ActivateCertificateAuthority.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}:fetch",
+                      "httpMethod": "GET",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.fetch",
+                      "parameterOrder": [
+                        "name"
+                      ],
+                      "parameters": {
+                        "name": {
+                          "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
+                          "location": "path",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
+                          "required": true,
+                          "type": "string"
+                        }
+                      },
+                      "path": "v1/{+name}:fetch",
+                      "response": {
+                        "$ref": "FetchCertificateAuthorityCsrResponse"
+                      },
+                      "scopes": [
+                        "https://www.googleapis.com/auth/cloud-platform"
+                      ]
+                    },
+                    "get": {
+                      "description": "Returns a CertificateAuthority.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}",
+                      "httpMethod": "GET",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.get",
+                      "parameterOrder": [
+                        "name"
+                      ],
+                      "parameters": {
+                        "name": {
+                          "description": "Required. The name of the CertificateAuthority to get.",
+                          "location": "path",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
+                          "required": true,
+                          "type": "string"
+                        }
+                      },
+                      "path": "v1/{+name}",
+                      "response": {
+                        "$ref": "CertificateAuthority"
                       },
                       "scopes": [
                         "https://www.googleapis.com/auth/cloud-platform"
                       ]
                     },
                     "list": {
-                      "description": "Lists CertificateRevocationLists.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists",
+                      "description": "Lists CertificateAuthorities.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities",
                       "httpMethod": "GET",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificateRevocationLists.list",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.list",
                       "parameterOrder": [
                         "parent"
                       ],
@@ -659,45 +703,45 @@
                           "type": "string"
                         },
                         "pageSize": {
-                          "description": "Optional. Limit on the number of CertificateRevocationLists to include in the response. Further CertificateRevocationLists can subsequently be obtained by including the ListCertificateRevocationListsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
+                          "description": "Optional. Limit on the number of CertificateAuthorities to include in the response. Further CertificateAuthorities can subsequently be obtained by including the ListCertificateAuthoritiesResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
                           "format": "int32",
                           "location": "query",
                           "type": "integer"
                         },
                         "pageToken": {
-                          "description": "Optional. Pagination token, returned earlier via ListCertificateRevocationListsResponse.next_page_token.",
+                          "description": "Optional. Pagination token, returned earlier via ListCertificateAuthoritiesResponse.next_page_token.",
                           "location": "query",
                           "type": "string"
                         },
                         "parent": {
-                          "description": "Required. The resource name of the location associated with the CertificateRevocationLists, in the format `projects/*/locations/*/certificateauthorities/*`.",
+                          "description": "Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/*/locations/*/caPools/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+parent}/certificateRevocationLists",
+                      "path": "v1/{+parent}/certificateAuthorities",
                       "response": {
-                        "$ref": "ListCertificateRevocationListsResponse"
+                        "$ref": "ListCertificateAuthoritiesResponse"
                       },
                       "scopes": [
                         "https://www.googleapis.com/auth/cloud-platform"
                       ]
                     },
                     "patch": {
-                      "description": "Update a CertificateRevocationList.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}",
+                      "description": "Update a CertificateAuthority.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}",
                       "httpMethod": "PATCH",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificateRevocationLists.patch",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.patch",
                       "parameterOrder": [
                         "name"
                       ],
                       "parameters": {
                         "name": {
-                          "description": "Output only. The resource path for this CertificateRevocationList in the format `projects/*/locations/*/certificateAuthorities/*/ certificateRevocationLists/*`.",
+                          "description": "Output only. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
                           "required": true,
                           "type": "string"
                         },
@@ -713,9 +757,9 @@
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+name}",
+                      "path": "v1/{+name}",
                       "request": {
-                        "$ref": "CertificateRevocationList"
+                        "$ref": "CertificateAuthority"
                       },
                       "response": {
                         "$ref": "Operation"
@@ -724,71 +768,246 @@
                         "https://www.googleapis.com/auth/cloud-platform"
                       ]
                     },
-                    "setIamPolicy": {
-                      "description": "Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}:setIamPolicy",
+                    "undelete": {
+                      "description": "Undelete a CertificateAuthority that has been deleted.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}:undelete",
                       "httpMethod": "POST",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificateRevocationLists.setIamPolicy",
+                      "id": "privateca.projects.locations.caPools.certificateAuthorities.undelete",
                       "parameterOrder": [
-                        "resource"
+                        "name"
                       ],
                       "parameters": {
-                        "resource": {
-                          "description": "REQUIRED: The resource for which the policy is being specified. See the operation documentation for the appropriate value for this field.",
+                        "name": {
+                          "description": "Required. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+resource}:setIamPolicy",
+                      "path": "v1/{+name}:undelete",
                       "request": {
-                        "$ref": "SetIamPolicyRequest"
+                        "$ref": "UndeleteCertificateAuthorityRequest"
                       },
                       "response": {
-                        "$ref": "Policy"
+                        "$ref": "Operation"
                       },
                       "scopes": [
                         "https://www.googleapis.com/auth/cloud-platform"
                       ]
-                    },
-                    "testIamPermissions": {
-                      "description": "Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may \"fail open\" without warning.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}:testIamPermissions",
-                      "httpMethod": "POST",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificateRevocationLists.testIamPermissions",
-                      "parameterOrder": [
-                        "resource"
-                      ],
-                      "parameters": {
-                        "resource": {
-                          "description": "REQUIRED: The resource for which the policy detail is being requested. See the operation documentation for the appropriate value for this field.",
-                          "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
-                          "required": true,
-                          "type": "string"
+                    }
+                  },
+                  "resources": {
+                    "certificateRevocationLists": {
+                      "methods": {
+                        "get": {
+                          "description": "Returns a CertificateRevocationList.",
+                          "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}",
+                          "httpMethod": "GET",
+                          "id": "privateca.projects.locations.caPools.certificateAuthorities.certificateRevocationLists.get",
+                          "parameterOrder": [
+                            "name"
+                          ],
+                          "parameters": {
+                            "name": {
+                              "description": "Required. The name of the CertificateRevocationList to get.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            }
+                          },
+                          "path": "v1/{+name}",
+                          "response": {
+                            "$ref": "CertificateRevocationList"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform"
+                          ]
+                        },
+                        "getIamPolicy": {
+                          "description": "Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set.",
+                          "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}:getIamPolicy",
+                          "httpMethod": "GET",
+                          "id": "privateca.projects.locations.caPools.certificateAuthorities.certificateRevocationLists.getIamPolicy",
+                          "parameterOrder": [
+                            "resource"
+                          ],
+                          "parameters": {
+                            "options.requestedPolicyVersion": {
+                              "description": "Optional. The policy format version to be returned. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional bindings must specify version 3. Policies without any conditional bindings may specify any valid value or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies).",
+                              "format": "int32",
+                              "location": "query",
+                              "type": "integer"
+                            },
+                            "resource": {
+                              "description": "REQUIRED: The resource for which the policy is being requested. See the operation documentation for the appropriate value for this field.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            }
+                          },
+                          "path": "v1/{+resource}:getIamPolicy",
+                          "response": {
+                            "$ref": "Policy"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform"
+                          ]
+                        },
+                        "list": {
+                          "description": "Lists CertificateRevocationLists.",
+                          "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists",
+                          "httpMethod": "GET",
+                          "id": "privateca.projects.locations.caPools.certificateAuthorities.certificateRevocationLists.list",
+                          "parameterOrder": [
+                            "parent"
+                          ],
+                          "parameters": {
+                            "filter": {
+                              "description": "Optional. Only include resources that match the filter in the response.",
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "orderBy": {
+                              "description": "Optional. Specify how the results should be sorted.",
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "pageSize": {
+                              "description": "Optional. Limit on the number of CertificateRevocationLists to include in the response. Further CertificateRevocationLists can subsequently be obtained by including the ListCertificateRevocationListsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
+                              "format": "int32",
+                              "location": "query",
+                              "type": "integer"
+                            },
+                            "pageToken": {
+                              "description": "Optional. Pagination token, returned earlier via ListCertificateRevocationListsResponse.next_page_token.",
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "parent": {
+                              "description": "Required. The resource name of the location associated with the CertificateRevocationLists, in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            }
+                          },
+                          "path": "v1/{+parent}/certificateRevocationLists",
+                          "response": {
+                            "$ref": "ListCertificateRevocationListsResponse"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform"
+                          ]
+                        },
+                        "patch": {
+                          "description": "Update a CertificateRevocationList.",
+                          "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}",
+                          "httpMethod": "PATCH",
+                          "id": "privateca.projects.locations.caPools.certificateAuthorities.certificateRevocationLists.patch",
+                          "parameterOrder": [
+                            "name"
+                          ],
+                          "parameters": {
+                            "name": {
+                              "description": "Output only. The resource name for this CertificateRevocationList in the format `projects/*/locations/*/caPools/*certificateAuthorities/*/ certificateRevocationLists/*`.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            },
+                            "requestId": {
+                              "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                              "location": "query",
+                              "type": "string"
+                            },
+                            "updateMask": {
+                              "description": "Required. A list of fields to be updated in this request.",
+                              "format": "google-fieldmask",
+                              "location": "query",
+                              "type": "string"
+                            }
+                          },
+                          "path": "v1/{+name}",
+                          "request": {
+                            "$ref": "CertificateRevocationList"
+                          },
+                          "response": {
+                            "$ref": "Operation"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform"
+                          ]
+                        },
+                        "setIamPolicy": {
+                          "description": "Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.",
+                          "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}:setIamPolicy",
+                          "httpMethod": "POST",
+                          "id": "privateca.projects.locations.caPools.certificateAuthorities.certificateRevocationLists.setIamPolicy",
+                          "parameterOrder": [
+                            "resource"
+                          ],
+                          "parameters": {
+                            "resource": {
+                              "description": "REQUIRED: The resource for which the policy is being specified. See the operation documentation for the appropriate value for this field.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            }
+                          },
+                          "path": "v1/{+resource}:setIamPolicy",
+                          "request": {
+                            "$ref": "SetIamPolicyRequest"
+                          },
+                          "response": {
+                            "$ref": "Policy"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform"
+                          ]
+                        },
+                        "testIamPermissions": {
+                          "description": "Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may \"fail open\" without warning.",
+                          "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificateAuthorities/{certificateAuthoritiesId}/certificateRevocationLists/{certificateRevocationListsId}:testIamPermissions",
+                          "httpMethod": "POST",
+                          "id": "privateca.projects.locations.caPools.certificateAuthorities.certificateRevocationLists.testIamPermissions",
+                          "parameterOrder": [
+                            "resource"
+                          ],
+                          "parameters": {
+                            "resource": {
+                              "description": "REQUIRED: The resource for which the policy detail is being requested. See the operation documentation for the appropriate value for this field.",
+                              "location": "path",
+                              "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificateAuthorities/[^/]+/certificateRevocationLists/[^/]+$",
+                              "required": true,
+                              "type": "string"
+                            }
+                          },
+                          "path": "v1/{+resource}:testIamPermissions",
+                          "request": {
+                            "$ref": "TestIamPermissionsRequest"
+                          },
+                          "response": {
+                            "$ref": "TestIamPermissionsResponse"
+                          },
+                          "scopes": [
+                            "https://www.googleapis.com/auth/cloud-platform"
+                          ]
                         }
-                      },
-                      "path": "v1beta1/{+resource}:testIamPermissions",
-                      "request": {
-                        "$ref": "TestIamPermissionsRequest"
-                      },
-                      "response": {
-                        "$ref": "TestIamPermissionsResponse"
-                      },
-                      "scopes": [
-                        "https://www.googleapis.com/auth/cloud-platform"
-                      ]
+                      }
                     }
                   }
                 },
                 "certificates": {
                   "methods": {
                     "create": {
-                      "description": "Create a new Certificate in a given Project, Location from a particular CertificateAuthority.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificates",
+                      "description": "Create a new Certificate in a given Project, Location from a particular CaPool.",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificates",
                       "httpMethod": "POST",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificates.create",
+                      "id": "privateca.projects.locations.caPools.certificates.create",
                       "parameterOrder": [
                         "parent"
                       ],
@@ -798,10 +1017,15 @@
                           "location": "query",
                           "type": "string"
                         },
+                        "issuingCertificateAuthorityId": {
+                          "description": "Optional. The resource ID of the CertificateAuthority that should issue the certificate. This optional field will ignore the load-balancing scheme of the Pool and directly issue the certificate from the CA with the specified ID, contained in the same CaPool referenced by `parent`. Per-CA quota rules apply. If left empty, a CertificateAuthority will be chosen from the CaPool by the service. For example, to issue a Certificate from a Certificate Authority with resource name \"projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca\", you can set the parent to \"projects/my-project/locations/us-central1/caPools/my-pool\" and the issuing_certificate_authority_id to \"my-ca\".",
+                          "location": "query",
+                          "type": "string"
+                        },
                         "parent": {
-                          "description": "Required. The resource name of the location and CertificateAuthority associated with the Certificate, in the format `projects/*/locations/*/certificateAuthorities/*`.",
+                          "description": "Required. The resource name of the CaPool associated with the Certificate, in the format `projects/*/locations/*/caPools/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                           "required": true,
                           "type": "string"
                         },
@@ -809,9 +1033,14 @@
                           "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
                           "location": "query",
                           "type": "string"
+                        },
+                        "validateOnly": {
+                          "description": "Optional. If this is true, no Certificate resource will be persisted regardless of the CaPool's tier, and the returned Certificate will not contain the pem_certificate field.",
+                          "location": "query",
+                          "type": "boolean"
                         }
                       },
-                      "path": "v1beta1/{+parent}/certificates",
+                      "path": "v1/{+parent}/certificates",
                       "request": {
                         "$ref": "Certificate"
                       },
@@ -824,9 +1053,9 @@
                     },
                     "get": {
                       "description": "Returns a Certificate.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificates/{certificatesId}",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificates/{certificatesId}",
                       "httpMethod": "GET",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificates.get",
+                      "id": "privateca.projects.locations.caPools.certificates.get",
                       "parameterOrder": [
                         "name"
                       ],
@@ -834,12 +1063,12 @@
                         "name": {
                           "description": "Required. The name of the Certificate to get.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificates/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificates/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+name}",
+                      "path": "v1/{+name}",
                       "response": {
                         "$ref": "Certificate"
                       },
@@ -849,9 +1078,9 @@
                     },
                     "list": {
                       "description": "Lists Certificates.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificates",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificates",
                       "httpMethod": "GET",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificates.list",
+                      "id": "privateca.projects.locations.caPools.certificates.list",
                       "parameterOrder": [
                         "parent"
                       ],
@@ -878,14 +1107,14 @@
                           "type": "string"
                         },
                         "parent": {
-                          "description": "Required. The resource name of the location associated with the Certificates, in the format `projects/*/locations/*/certificateauthorities/*`.",
+                          "description": "Required. The resource name of the location associated with the Certificates, in the format `projects/*/locations/*/caPools/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+parent}/certificates",
+                      "path": "v1/{+parent}/certificates",
                       "response": {
                         "$ref": "ListCertificatesResponse"
                       },
@@ -895,17 +1124,17 @@
                     },
                     "patch": {
                       "description": "Update a Certificate. Currently, the only field you can update is the labels field.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificates/{certificatesId}",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificates/{certificatesId}",
                       "httpMethod": "PATCH",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificates.patch",
+                      "id": "privateca.projects.locations.caPools.certificates.patch",
                       "parameterOrder": [
                         "name"
                       ],
                       "parameters": {
                         "name": {
-                          "description": "Output only. The resource path for this Certificate in the format `projects/*/locations/*/certificateAuthorities/*/certificates/*`.",
+                          "description": "Output only. The resource name for this Certificate in the format `projects/*/locations/*/caPools/*/certificates/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificates/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificates/[^/]+$",
                           "required": true,
                           "type": "string"
                         },
@@ -921,7 +1150,7 @@
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+name}",
+                      "path": "v1/{+name}",
                       "request": {
                         "$ref": "Certificate"
                       },
@@ -934,22 +1163,22 @@
                     },
                     "revoke": {
                       "description": "Revoke a Certificate.",
-                      "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/certificateAuthorities/{certificateAuthoritiesId}/certificates/{certificatesId}:revoke",
+                      "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/caPools/{caPoolsId}/certificates/{certificatesId}:revoke",
                       "httpMethod": "POST",
-                      "id": "privateca.projects.locations.certificateAuthorities.certificates.revoke",
+                      "id": "privateca.projects.locations.caPools.certificates.revoke",
                       "parameterOrder": [
                         "name"
                       ],
                       "parameters": {
                         "name": {
-                          "description": "Required. The resource name for this Certificate in the format `projects/*/locations/*/certificateAuthorities/*/certificates/*`.",
+                          "description": "Required. The resource name for this Certificate in the format `projects/*/locations/*/caPools/*/certificates/*`.",
                           "location": "path",
-                          "pattern": "^projects/[^/]+/locations/[^/]+/certificateAuthorities/[^/]+/certificates/[^/]+$",
+                          "pattern": "^projects/[^/]+/locations/[^/]+/caPools/[^/]+/certificates/[^/]+$",
                           "required": true,
                           "type": "string"
                         }
                       },
-                      "path": "v1beta1/{+name}:revoke",
+                      "path": "v1/{+name}:revoke",
                       "request": {
                         "$ref": "RevokeCertificateRequest"
                       },
@@ -964,11 +1193,280 @@
                 }
               }
             },
+            "certificateTemplates": {
+              "methods": {
+                "create": {
+                  "description": "Create a new CertificateTemplate in a given Project and Location.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates",
+                  "httpMethod": "POST",
+                  "id": "privateca.projects.locations.certificateTemplates.create",
+                  "parameterOrder": [
+                    "parent"
+                  ],
+                  "parameters": {
+                    "certificateTemplateId": {
+                      "description": "Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`",
+                      "location": "query",
+                      "type": "string"
+                    },
+                    "parent": {
+                      "description": "Required. The resource name of the location associated with the CertificateTemplate, in the format `projects/*/locations/*`.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                      "location": "query",
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+parent}/certificateTemplates",
+                  "request": {
+                    "$ref": "CertificateTemplate"
+                  },
+                  "response": {
+                    "$ref": "Operation"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "delete": {
+                  "description": "DeleteCertificateTemplate deletes a CertificateTemplate.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates/{certificateTemplatesId}",
+                  "httpMethod": "DELETE",
+                  "id": "privateca.projects.locations.certificateTemplates.delete",
+                  "parameterOrder": [
+                    "name"
+                  ],
+                  "parameters": {
+                    "name": {
+                      "description": "Required. The resource name for this CertificateTemplate in the format `projects/*/locations/*/certificateTemplates/*`.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateTemplates/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                      "location": "query",
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+name}",
+                  "response": {
+                    "$ref": "Operation"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "get": {
+                  "description": "Returns a CertificateTemplate.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates/{certificateTemplatesId}",
+                  "httpMethod": "GET",
+                  "id": "privateca.projects.locations.certificateTemplates.get",
+                  "parameterOrder": [
+                    "name"
+                  ],
+                  "parameters": {
+                    "name": {
+                      "description": "Required. The name of the CertificateTemplate to get.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateTemplates/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+name}",
+                  "response": {
+                    "$ref": "CertificateTemplate"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "getIamPolicy": {
+                  "description": "Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates/{certificateTemplatesId}:getIamPolicy",
+                  "httpMethod": "GET",
+                  "id": "privateca.projects.locations.certificateTemplates.getIamPolicy",
+                  "parameterOrder": [
+                    "resource"
+                  ],
+                  "parameters": {
+                    "options.requestedPolicyVersion": {
+                      "description": "Optional. The policy format version to be returned. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional bindings must specify version 3. Policies without any conditional bindings may specify any valid value or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies).",
+                      "format": "int32",
+                      "location": "query",
+                      "type": "integer"
+                    },
+                    "resource": {
+                      "description": "REQUIRED: The resource for which the policy is being requested. See the operation documentation for the appropriate value for this field.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateTemplates/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+resource}:getIamPolicy",
+                  "response": {
+                    "$ref": "Policy"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "list": {
+                  "description": "Lists CertificateTemplates.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates",
+                  "httpMethod": "GET",
+                  "id": "privateca.projects.locations.certificateTemplates.list",
+                  "parameterOrder": [
+                    "parent"
+                  ],
+                  "parameters": {
+                    "filter": {
+                      "description": "Optional. Only include resources that match the filter in the response.",
+                      "location": "query",
+                      "type": "string"
+                    },
+                    "orderBy": {
+                      "description": "Optional. Specify how the results should be sorted.",
+                      "location": "query",
+                      "type": "string"
+                    },
+                    "pageSize": {
+                      "description": "Optional. Limit on the number of CertificateTemplates to include in the response. Further CertificateTemplates can subsequently be obtained by including the ListCertificateTemplatesResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
+                      "format": "int32",
+                      "location": "query",
+                      "type": "integer"
+                    },
+                    "pageToken": {
+                      "description": "Optional. Pagination token, returned earlier via ListCertificateTemplatesResponse.next_page_token.",
+                      "location": "query",
+                      "type": "string"
+                    },
+                    "parent": {
+                      "description": "Required. The resource name of the location associated with the CertificateTemplates, in the format `projects/*/locations/*`.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+parent}/certificateTemplates",
+                  "response": {
+                    "$ref": "ListCertificateTemplatesResponse"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "patch": {
+                  "description": "Update a CertificateTemplate.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates/{certificateTemplatesId}",
+                  "httpMethod": "PATCH",
+                  "id": "privateca.projects.locations.certificateTemplates.patch",
+                  "parameterOrder": [
+                    "name"
+                  ],
+                  "parameters": {
+                    "name": {
+                      "description": "Output only. The resource name for this CertificateTemplate in the format `projects/*/locations/*/certificateTemplates/*`.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateTemplates/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+                      "location": "query",
+                      "type": "string"
+                    },
+                    "updateMask": {
+                      "description": "Required. A list of fields to be updated in this request.",
+                      "format": "google-fieldmask",
+                      "location": "query",
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+name}",
+                  "request": {
+                    "$ref": "CertificateTemplate"
+                  },
+                  "response": {
+                    "$ref": "Operation"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "setIamPolicy": {
+                  "description": "Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates/{certificateTemplatesId}:setIamPolicy",
+                  "httpMethod": "POST",
+                  "id": "privateca.projects.locations.certificateTemplates.setIamPolicy",
+                  "parameterOrder": [
+                    "resource"
+                  ],
+                  "parameters": {
+                    "resource": {
+                      "description": "REQUIRED: The resource for which the policy is being specified. See the operation documentation for the appropriate value for this field.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateTemplates/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+resource}:setIamPolicy",
+                  "request": {
+                    "$ref": "SetIamPolicyRequest"
+                  },
+                  "response": {
+                    "$ref": "Policy"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                },
+                "testIamPermissions": {
+                  "description": "Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may \"fail open\" without warning.",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/certificateTemplates/{certificateTemplatesId}:testIamPermissions",
+                  "httpMethod": "POST",
+                  "id": "privateca.projects.locations.certificateTemplates.testIamPermissions",
+                  "parameterOrder": [
+                    "resource"
+                  ],
+                  "parameters": {
+                    "resource": {
+                      "description": "REQUIRED: The resource for which the policy detail is being requested. See the operation documentation for the appropriate value for this field.",
+                      "location": "path",
+                      "pattern": "^projects/[^/]+/locations/[^/]+/certificateTemplates/[^/]+$",
+                      "required": true,
+                      "type": "string"
+                    }
+                  },
+                  "path": "v1/{+resource}:testIamPermissions",
+                  "request": {
+                    "$ref": "TestIamPermissionsRequest"
+                  },
+                  "response": {
+                    "$ref": "TestIamPermissionsResponse"
+                  },
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform"
+                  ]
+                }
+              }
+            },
             "operations": {
               "methods": {
                 "cancel": {
                   "description": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
                   "httpMethod": "POST",
                   "id": "privateca.projects.locations.operations.cancel",
                   "parameterOrder": [
@@ -983,7 +1481,7 @@
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}:cancel",
+                  "path": "v1/{+name}:cancel",
                   "request": {
                     "$ref": "CancelOperationRequest"
                   },
@@ -996,7 +1494,7 @@
                 },
                 "delete": {
                   "description": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
                   "httpMethod": "DELETE",
                   "id": "privateca.projects.locations.operations.delete",
                   "parameterOrder": [
@@ -1011,7 +1509,7 @@
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}",
+                  "path": "v1/{+name}",
                   "response": {
                     "$ref": "Empty"
                   },
@@ -1021,7 +1519,7 @@
                 },
                 "get": {
                   "description": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
                   "httpMethod": "GET",
                   "id": "privateca.projects.locations.operations.get",
                   "parameterOrder": [
@@ -1036,7 +1534,7 @@
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}",
+                  "path": "v1/{+name}",
                   "response": {
                     "$ref": "Operation"
                   },
@@ -1046,7 +1544,7 @@
                 },
                 "list": {
                   "description": "Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. NOTE: the `name` binding allows API services to override the binding to use different resource name schemes, such as `users/*/operations`. To override the binding, API services can add a binding such as `\"/v1/{name=users/*}/operations\"` to their service configuration. For backwards compatibility, the default name includes the operations collection id, however overriding users must ensure the name binding is the parent resource, without the operations collection id.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/operations",
+                  "flatPath": "v1/projects/{projectsId}/locations/{locationsId}/operations",
                   "httpMethod": "GET",
                   "id": "privateca.projects.locations.operations.list",
                   "parameterOrder": [
@@ -1077,171 +1575,9 @@
                       "type": "string"
                     }
                   },
-                  "path": "v1beta1/{+name}/operations",
+                  "path": "v1/{+name}/operations",
                   "response": {
                     "$ref": "ListOperationsResponse"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                }
-              }
-            },
-            "reusableConfigs": {
-              "methods": {
-                "get": {
-                  "description": "Returns a ReusableConfig.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/reusableConfigs/{reusableConfigsId}",
-                  "httpMethod": "GET",
-                  "id": "privateca.projects.locations.reusableConfigs.get",
-                  "parameterOrder": [
-                    "name"
-                  ],
-                  "parameters": {
-                    "name": {
-                      "description": "Required. The name of the ReusableConfigs to get.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/reusableConfigs/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+name}",
-                  "response": {
-                    "$ref": "ReusableConfig"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "getIamPolicy": {
-                  "description": "Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/reusableConfigs/{reusableConfigsId}:getIamPolicy",
-                  "httpMethod": "GET",
-                  "id": "privateca.projects.locations.reusableConfigs.getIamPolicy",
-                  "parameterOrder": [
-                    "resource"
-                  ],
-                  "parameters": {
-                    "options.requestedPolicyVersion": {
-                      "description": "Optional. The policy format version to be returned. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional bindings must specify version 3. Policies without any conditional bindings may specify any valid value or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies).",
-                      "format": "int32",
-                      "location": "query",
-                      "type": "integer"
-                    },
-                    "resource": {
-                      "description": "REQUIRED: The resource for which the policy is being requested. See the operation documentation for the appropriate value for this field.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/reusableConfigs/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+resource}:getIamPolicy",
-                  "response": {
-                    "$ref": "Policy"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "list": {
-                  "description": "Lists ReusableConfigs.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/reusableConfigs",
-                  "httpMethod": "GET",
-                  "id": "privateca.projects.locations.reusableConfigs.list",
-                  "parameterOrder": [
-                    "parent"
-                  ],
-                  "parameters": {
-                    "filter": {
-                      "description": "Optional. Only include resources that match the filter in the response.",
-                      "location": "query",
-                      "type": "string"
-                    },
-                    "orderBy": {
-                      "description": "Optional. Specify how the results should be sorted.",
-                      "location": "query",
-                      "type": "string"
-                    },
-                    "pageSize": {
-                      "description": "Optional. Limit on the number of ReusableConfigs to include in the response. Further ReusableConfigs can subsequently be obtained by including the ListReusableConfigsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default.",
-                      "format": "int32",
-                      "location": "query",
-                      "type": "integer"
-                    },
-                    "pageToken": {
-                      "description": "Optional. Pagination token, returned earlier via ListReusableConfigsResponse.next_page_token.",
-                      "location": "query",
-                      "type": "string"
-                    },
-                    "parent": {
-                      "description": "Required. The resource name of the location associated with the ReusableConfigs, in the format `projects/*/locations/*`.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+parent}/reusableConfigs",
-                  "response": {
-                    "$ref": "ListReusableConfigsResponse"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "setIamPolicy": {
-                  "description": "Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/reusableConfigs/{reusableConfigsId}:setIamPolicy",
-                  "httpMethod": "POST",
-                  "id": "privateca.projects.locations.reusableConfigs.setIamPolicy",
-                  "parameterOrder": [
-                    "resource"
-                  ],
-                  "parameters": {
-                    "resource": {
-                      "description": "REQUIRED: The resource for which the policy is being specified. See the operation documentation for the appropriate value for this field.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/reusableConfigs/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+resource}:setIamPolicy",
-                  "request": {
-                    "$ref": "SetIamPolicyRequest"
-                  },
-                  "response": {
-                    "$ref": "Policy"
-                  },
-                  "scopes": [
-                    "https://www.googleapis.com/auth/cloud-platform"
-                  ]
-                },
-                "testIamPermissions": {
-                  "description": "Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may \"fail open\" without warning.",
-                  "flatPath": "v1beta1/projects/{projectsId}/locations/{locationsId}/reusableConfigs/{reusableConfigsId}:testIamPermissions",
-                  "httpMethod": "POST",
-                  "id": "privateca.projects.locations.reusableConfigs.testIamPermissions",
-                  "parameterOrder": [
-                    "resource"
-                  ],
-                  "parameters": {
-                    "resource": {
-                      "description": "REQUIRED: The resource for which the policy detail is being requested. See the operation documentation for the appropriate value for this field.",
-                      "location": "path",
-                      "pattern": "^projects/[^/]+/locations/[^/]+/reusableConfigs/[^/]+$",
-                      "required": true,
-                      "type": "string"
-                    }
-                  },
-                  "path": "v1beta1/{+resource}:testIamPermissions",
-                  "request": {
-                    "$ref": "TestIamPermissionsRequest"
-                  },
-                  "response": {
-                    "$ref": "TestIamPermissionsResponse"
                   },
                   "scopes": [
                     "https://www.googleapis.com/auth/cloud-platform"
@@ -1254,7 +1590,7 @@
       }
     }
   },
-  "revision": "20210614",
+  "revision": "20210603",
   "rootUrl": "https://privateca.googleapis.com/",
   "schemas": {
     "AccessUrls": {
@@ -1265,9 +1601,12 @@
           "description": "The URL where this CertificateAuthority's CA certificate is published. This will only be set for CAs that have been activated.",
           "type": "string"
         },
-        "crlAccessUrl": {
-          "description": "The URL where this CertificateAuthority's CRLs are published. This will only be set for CAs that have been activated.",
-          "type": "string"
+        "crlAccessUrls": {
+          "description": "The URLs where this CertificateAuthority's CRLs are published. This will only be set for CAs that have been activated.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -1291,58 +1630,17 @@
       },
       "type": "object"
     },
-    "AllowedConfigList": {
-      "id": "AllowedConfigList",
+    "AllowedKeyType": {
+      "description": "Describes a \"type\" of key that may be used in a Certificate issued from a CaPool. Note that a single AllowedKeyType may refer to either a fully-qualified key algorithm, such as RSA 4096, or a family of key algorithms, such as any RSA key.",
+      "id": "AllowedKeyType",
       "properties": {
-        "allowedConfigValues": {
-          "description": "Required. All Certificates issued by the CertificateAuthority must match at least one listed ReusableConfigWrapper. If a ReusableConfigWrapper has an empty field, any value will be allowed for that field.",
-          "items": {
-            "$ref": "ReusableConfigWrapper"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "AllowedSubjectAltNames": {
-      "description": "AllowedSubjectAltNames specifies the allowed values for SubjectAltNames by the CertificateAuthority when issuing Certificates.",
-      "id": "AllowedSubjectAltNames",
-      "properties": {
-        "allowCustomSans": {
-          "description": "Optional. Specifies if to allow custom X509Extension values.",
-          "type": "boolean"
+        "ellipticCurve": {
+          "$ref": "EcKeyType",
+          "description": "Represents an allowed Elliptic Curve key type."
         },
-        "allowGlobbingDnsWildcards": {
-          "description": "Optional. Specifies if glob patterns used for allowed_dns_names allow wildcard certificates. If this is set, certificate requests with wildcard domains will be permitted to match a glob pattern specified in allowed_dns_names. Otherwise, certificate requests with wildcard domains will be permitted only if allowed_dns_names contains a literal wildcard.",
-          "type": "boolean"
-        },
-        "allowedDnsNames": {
-          "description": "Optional. Contains valid, fully-qualified host names. Glob patterns are also supported. To allow an explicit wildcard certificate, escape with backlash (i.e. \"\\*\"). E.g. for globbed entries: '*bar.com' will allow 'foo.bar.com', but not '*.bar.com', unless the allow_globbing_dns_wildcards field is set. E.g. for wildcard entries: '\\*.bar.com' will allow '*.bar.com', but not 'foo.bar.com'.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "allowedEmailAddresses": {
-          "description": "Optional. Contains valid RFC 2822 E-mail addresses. Glob patterns are also supported.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "allowedIps": {
-          "description": "Optional. Contains valid 32-bit IPv4 addresses and subnet ranges or RFC 4291 IPv6 addresses and subnet ranges. Subnet ranges are specified using the '/' notation (e.g. 10.0.0.0/8, 2001:700:300:1800::/64). Glob patterns are supported only for ip address entries (i.e. not for subnet ranges).",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "allowedUris": {
-          "description": "Optional. Contains valid RFC 3986 URIs. Glob patterns are also supported. To match across path seperators (i.e. '/') use the double star glob pattern (i.e. '**').",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
+        "rsa": {
+          "$ref": "RsaKeyType",
+          "description": "Represents an allowed RSA key type."
         }
       },
       "type": "object"
@@ -1433,10 +1731,64 @@
       },
       "type": "object"
     },
+    "CaPool": {
+      "description": "A CaPool represents a group of CertificateAuthorities that form a trust anchor. A CaPool can be used to manage issuance policies for one or more CertificateAuthority resources and to rotate CA certificates in and out of the trust anchor.",
+      "id": "CaPool",
+      "properties": {
+        "issuancePolicy": {
+          "$ref": "IssuancePolicy",
+          "description": "Optional. The IssuancePolicy to control how Certificates will be issued from this CaPool."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional. Labels with user-defined metadata.",
+          "type": "object"
+        },
+        "name": {
+          "description": "Output only. The resource name for this CaPool in the format `projects/*/locations/*/caPools/*`.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "publishingOptions": {
+          "$ref": "PublishingOptions",
+          "description": "Optional. The PublishingOptions to follow when issuing Certificates from any CertificateAuthority in this CaPool."
+        },
+        "tier": {
+          "description": "Required. Immutable. The Tier of this CaPool.",
+          "enum": [
+            "TIER_UNSPECIFIED",
+            "ENTERPRISE",
+            "DEVOPS"
+          ],
+          "enumDescriptions": [
+            "Not specified.",
+            "Enterprise tier.",
+            "DevOps tier."
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "CancelOperationRequest": {
       "description": "The request message for Operations.CancelOperation.",
       "id": "CancelOperationRequest",
       "properties": {},
+      "type": "object"
+    },
+    "CertChain": {
+      "id": "CertChain",
+      "properties": {
+        "certificates": {
+          "description": "The certificates that form the CA chain, from leaf to root order.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
       "type": "object"
     },
     "Certificate": {
@@ -1448,6 +1800,10 @@
           "description": "Output only. A structured description of the issued X.509 certificate.",
           "readOnly": true
         },
+        "certificateTemplate": {
+          "description": "Immutable. The resource name for a CertificateTemplate used to issue this certificate, in the format `projects/*/locations/*/certificateTemplates/*`. If this is specified, the caller must have the necessary permission to use this template. If this is omitted, no template will be used. This template must be in the same location as the Certificate.",
+          "type": "string"
+        },
         "config": {
           "$ref": "CertificateConfig",
           "description": "Immutable. A description of the certificate and key that does not require X.509 or ASN.1."
@@ -1455,6 +1811,11 @@
         "createTime": {
           "description": "Output only. The time at which this Certificate was created.",
           "format": "google-datetime",
+          "readOnly": true,
+          "type": "string"
+        },
+        "issuerCertificateAuthority": {
+          "description": "Output only. The resource name of the issuing CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
           "readOnly": true,
           "type": "string"
         },
@@ -1471,7 +1832,7 @@
           "type": "string"
         },
         "name": {
-          "description": "Output only. The resource path for this Certificate in the format `projects/*/locations/*/certificateAuthorities/*/certificates/*`.",
+          "description": "Output only. The resource name for this Certificate in the format `projects/*/locations/*/caPools/*/certificates/*`.",
           "readOnly": true,
           "type": "string"
         },
@@ -1496,6 +1857,20 @@
           "$ref": "RevocationDetails",
           "description": "Output only. Details regarding the revocation of this Certificate. This Certificate is considered revoked if and only if this field is present.",
           "readOnly": true
+        },
+        "subjectMode": {
+          "description": "Immutable. Specifies how the Certificate's identity fields are to be decided. If this is omitted, the `DEFAULT` subject mode will be used.",
+          "enum": [
+            "SUBJECT_REQUEST_MODE_UNSPECIFIED",
+            "DEFAULT",
+            "REFLECTED_SPIFFE"
+          ],
+          "enumDescriptions": [
+            "Not specified.",
+            "The default mode used in most cases. Indicates that the certificate's Subject and/or SubjectAltNames are specified in the certificate request. This mode requires the caller to have the `privateca.certificates.create` permission.",
+            "A mode reserved for special cases. Indicates that the certificate should have one or more SPIFFE SubjectAltNames set by the service based on the caller's identity. This mode will ignore any explicitly specified Subject and/or SubjectAltNames in the certificate request. This mode requires the caller to have the `privateca.certificates.createForSelf` permission."
+          ],
+          "type": "string"
         },
         "updateTime": {
           "description": "Output only. The time at which this Certificate was updated.",
@@ -1523,10 +1898,6 @@
           "readOnly": true,
           "type": "array"
         },
-        "certificatePolicy": {
-          "$ref": "CertificateAuthorityPolicy",
-          "description": "Optional. The CertificateAuthorityPolicy to enforce when issuing Certificates from this CertificateAuthority."
-        },
         "config": {
           "$ref": "CertificateConfig",
           "description": "Required. Immutable. The config used to create a self-signed X.509 certificate or CSR."
@@ -1538,7 +1909,13 @@
           "type": "string"
         },
         "deleteTime": {
-          "description": "Output only. The time at which this CertificateAuthority will be deleted, if scheduled for deletion.",
+          "description": "Output only. The time at which this CertificateAuthority was soft deleted, if it is in the DELETED state.",
+          "format": "google-datetime",
+          "readOnly": true,
+          "type": "string"
+        },
+        "expireTime": {
+          "description": "Output only. The time at which this CertificateAuthority will be permanently purged, if it is in the DELETED state.",
           "format": "google-datetime",
           "readOnly": true,
           "type": "string"
@@ -1546,10 +1923,6 @@
         "gcsBucket": {
           "description": "Immutable. The name of a Cloud Storage bucket where this CertificateAuthority will publish content, such as the CA certificate and CRLs. This must be a bucket name, without any prefixes (such as `gs://`) or suffixes (such as `.googleapis.com`). For example, to use a bucket named `my-bucket`, you would simply specify `my-bucket`. If not specified, a managed bucket will be created.",
           "type": "string"
-        },
-        "issuingOptions": {
-          "$ref": "IssuingOptions",
-          "description": "Optional. The IssuingOptions to follow when issuing Certificates from this CertificateAuthority."
         },
         "keySpec": {
           "$ref": "KeyVersionSpec",
@@ -1568,7 +1941,7 @@
           "type": "string"
         },
         "name": {
-          "description": "Output only. The resource name for this CertificateAuthority in the format `projects/*/locations/*/certificateAuthorities/*`.",
+          "description": "Output only. The resource name for this CertificateAuthority in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
           "readOnly": true,
           "type": "string"
         },
@@ -1586,15 +1959,17 @@
             "STATE_UNSPECIFIED",
             "ENABLED",
             "DISABLED",
-            "PENDING_ACTIVATION",
-            "PENDING_DELETION"
+            "STAGED",
+            "AWAITING_USER_ACTIVATION",
+            "DELETED"
           ],
           "enumDescriptions": [
             "Not specified.",
-            "Certificates can be issued from this CA. CRLs will be generated for this CA.",
-            "Certificates cannot be issued from this CA. CRLs will still be generated.",
-            "Certificates cannot be issued from this CA. CRLs will not be generated.",
-            "Certificates cannot be issued from this CA. CRLs will not be generated."
+            "Certificates can be issued from this CA. CRLs will be generated for this CA. The CA will be part of the CaPool's trust anchor, and will be used to issue certificates from the CaPool.",
+            "Certificates cannot be issued from this CA. CRLs will still be generated. The CA will be part of the CaPool's trust anchor, but will not be used to issue certificates from the CaPool.",
+            "Certificates can be issued from this CA. CRLs will be generated for this CA. The CA will be part of the CaPool's trust anchor, but will not be used to issue certificates from the CaPool.",
+            "Certificates cannot be issued from this CA. CRLs will not be generated. The CA will not be part of the CaPool's trust anchor, and will not be used to issue certificates from the CaPool.",
+            "Certificates cannot be issued from this CA. CRLs will not be generated. The CA may still be recovered by calling CertificateAuthorityService.UndeleteCertificateAuthority before expire_time. The CA will not be part of the CaPool's trust anchor, and will not be used to issue certificates from the CaPool."
           ],
           "readOnly": true,
           "type": "string"
@@ -1604,7 +1979,7 @@
           "description": "Optional. If this is a subordinate CertificateAuthority, this field will be set with the subordinate configuration, which describes its issuers. This may be updated, but this CertificateAuthority must continue to validate."
         },
         "tier": {
-          "description": "Required. Immutable. The Tier of this CertificateAuthority.",
+          "description": "Output only. The CaPool.Tier of the CaPool that includes this CertificateAuthority.",
           "enum": [
             "TIER_UNSPECIFIED",
             "ENTERPRISE",
@@ -1615,6 +1990,7 @@
             "Enterprise tier.",
             "DevOps tier."
           ],
+          "readOnly": true,
           "type": "string"
         },
         "type": {
@@ -1632,52 +2008,10 @@
           "type": "string"
         },
         "updateTime": {
-          "description": "Output only. The time at which this CertificateAuthority was updated.",
+          "description": "Output only. The time at which this CertificateAuthority was last updated.",
           "format": "google-datetime",
           "readOnly": true,
           "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "CertificateAuthorityPolicy": {
-      "description": "The issuing policy for a CertificateAuthority. Certificates will not be successfully issued from this CertificateAuthority if they violate the policy.",
-      "id": "CertificateAuthorityPolicy",
-      "properties": {
-        "allowedCommonNames": {
-          "description": "Optional. If any value is specified here, then all Certificates issued by the CertificateAuthority must match at least one listed value. If no value is specified, all values will be allowed for this fied. Glob patterns are also supported.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "allowedConfigList": {
-          "$ref": "AllowedConfigList",
-          "description": "Optional. All Certificates issued by the CertificateAuthority must match at least one listed ReusableConfigWrapper in the list."
-        },
-        "allowedIssuanceModes": {
-          "$ref": "IssuanceModes",
-          "description": "Optional. If specified, then only methods allowed in the IssuanceModes may be used to issue Certificates."
-        },
-        "allowedLocationsAndOrganizations": {
-          "description": "Optional. If any Subject is specified here, then all Certificates issued by the CertificateAuthority must match at least one listed Subject. If a Subject has an empty field, any value will be allowed for that field.",
-          "items": {
-            "$ref": "Subject"
-          },
-          "type": "array"
-        },
-        "allowedSans": {
-          "$ref": "AllowedSubjectAltNames",
-          "description": "Optional. If a AllowedSubjectAltNames is specified here, then all Certificates issued by the CertificateAuthority must match AllowedSubjectAltNames. If no value or an empty value is specified, any value will be allowed for the SubjectAltNames field."
-        },
-        "maximumLifetime": {
-          "description": "Optional. The maximum lifetime allowed by the CertificateAuthority. Note that if the any part if the issuing chain expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated.",
-          "format": "google-duration",
-          "type": "string"
-        },
-        "overwriteConfigValues": {
-          "$ref": "ReusableConfigWrapper",
-          "description": "Optional. All Certificates issued by the CertificateAuthority will use the provided configuration values, overwriting any requested configuration values."
         }
       },
       "type": "object"
@@ -1690,13 +2024,13 @@
           "$ref": "PublicKey",
           "description": "Optional. The public key that corresponds to this config. This is, for example, used when issuing Certificates, but not when creating a self-signed CertificateAuthority or CertificateAuthority CSR."
         },
-        "reusableConfig": {
-          "$ref": "ReusableConfigWrapper",
-          "description": "Required. Describes how some of the technical fields in a certificate should be populated."
-        },
         "subjectConfig": {
           "$ref": "SubjectConfig",
           "description": "Required. Specifies some of the values in a certificate that are related to the subject."
+        },
+        "x509Config": {
+          "$ref": "X509Parameters",
+          "description": "Required. Describes how some of the technical X.509 fields in a certificate should be populated."
         }
       },
       "type": "object"
@@ -1720,10 +2054,6 @@
           "$ref": "CertificateFingerprint",
           "description": "The hash of the x.509 certificate."
         },
-        "configValues": {
-          "$ref": "ReusableConfigValues",
-          "description": "Describes some of the technical fields in a certificate."
-        },
         "crlDistributionPoints": {
           "description": "Describes a list of locations to obtain CRL information, i.e. the DistributionPoint.fullName described by https://tools.ietf.org/html/rfc5280#section-4.2.1.13",
           "items": {
@@ -1742,6 +2072,47 @@
         "subjectKeyId": {
           "$ref": "KeyId",
           "description": "Provides a means of identifiying certificates that contain a particular public key, per https://tools.ietf.org/html/rfc5280#section-4.2.1.2."
+        },
+        "x509Description": {
+          "$ref": "X509Parameters",
+          "description": "Describes some of the technical X.509 fields in a certificate."
+        }
+      },
+      "type": "object"
+    },
+    "CertificateExtensionConstraints": {
+      "description": "Describes a set of X.509 extensions that may be part of some certificate issuance controls.",
+      "id": "CertificateExtensionConstraints",
+      "properties": {
+        "additionalExtensions": {
+          "description": "Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.",
+          "items": {
+            "$ref": "ObjectId"
+          },
+          "type": "array"
+        },
+        "knownExtensions": {
+          "description": "Optional. A set of named X.509 extensions. Will be combined with additional_extensions to determine the full set of X.509 extensions.",
+          "items": {
+            "enum": [
+              "KNOWN_CERTIFICATE_EXTENSION_UNSPECIFIED",
+              "BASE_KEY_USAGE",
+              "EXTENDED_KEY_USAGE",
+              "CA_OPTIONS",
+              "POLICY_IDS",
+              "AIA_OCSP_SERVERS"
+            ],
+            "enumDescriptions": [
+              "Not specified.",
+              "Refers to a certificate's Key Usage extension, as described in [RFC 5280 section 4.2.1.3](https://tools.ietf.org/html/rfc5280#section-4.2.1.3). This corresponds to the KeyUsage.base_key_usage field.",
+              "Refers to a certificate's Extended Key Usage extension, as described in [RFC 5280 section 4.2.1.12](https://tools.ietf.org/html/rfc5280#section-4.2.1.12). This corresponds to the KeyUsage.extended_key_usage message.",
+              "Refers to a certificate's Basic Constraints extension, as described in [RFC 5280 section 4.2.1.9](https://tools.ietf.org/html/rfc5280#section-4.2.1.9). This corresponds to the X509Parameters.ca_options field.",
+              "Refers to a certificate's Policy object identifiers, as described in [RFC 5280 section 4.2.1.4](https://tools.ietf.org/html/rfc5280#section-4.2.1.4). This corresponds to the X509Parameters.policy_ids field.",
+              "Refers to OCSP servers in a certificate's Authority Information Access extension, as described in [RFC 5280 section 4.2.2.1](https://tools.ietf.org/html/rfc5280#section-4.2.2.1), This corresponds to the X509Parameters.aia_ocsp_servers field."
+            ],
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -1753,6 +2124,25 @@
         "sha256Hash": {
           "description": "The SHA 256 hash, encoded in hexadecimal, of the DER x509 certificate.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CertificateIdentityConstraints": {
+      "description": "Describes constraints on a Certificate's Subject and SubjectAltNames.",
+      "id": "CertificateIdentityConstraints",
+      "properties": {
+        "allowSubjectAltNamesPassthrough": {
+          "description": "Required. If this is true, the SubjectAltNames extension may be copied from a certificate request into the signed certificate. Otherwise, the requested SubjectAltNames will be discarded.",
+          "type": "boolean"
+        },
+        "allowSubjectPassthrough": {
+          "description": "Required. If this is true, the Subject field may be copied from a certificate request into the signed certificate. Otherwise, the requested Subject will be discarded.",
+          "type": "boolean"
+        },
+        "celExpression": {
+          "$ref": "Expr",
+          "description": "Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/cel-guide"
         }
       },
       "type": "object"
@@ -1780,12 +2170,17 @@
           "type": "object"
         },
         "name": {
-          "description": "Output only. The resource path for this CertificateRevocationList in the format `projects/*/locations/*/certificateAuthorities/*/ certificateRevocationLists/*`.",
+          "description": "Output only. The resource name for this CertificateRevocationList in the format `projects/*/locations/*/caPools/*certificateAuthorities/*/ certificateRevocationLists/*`.",
           "readOnly": true,
           "type": "string"
         },
         "pemCrl": {
           "description": "Output only. The PEM-encoded X.509 CRL.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "revisionId": {
+          "description": "Output only. The revision ID of this CertificateRevocationList. A new revision is committed whenever a new CRL is published. The format is an 8-character hexadecimal string.",
           "readOnly": true,
           "type": "string"
         },
@@ -1827,12 +2222,82 @@
       },
       "type": "object"
     },
+    "CertificateTemplate": {
+      "description": "A CertificateTemplate refers to a managed template for certificate issuance.",
+      "id": "CertificateTemplate",
+      "properties": {
+        "createTime": {
+          "description": "Output only. The time at which this CertificateTemplate was created.",
+          "format": "google-datetime",
+          "readOnly": true,
+          "type": "string"
+        },
+        "description": {
+          "description": "Optional. A human-readable description of scenarios this template is intended for.",
+          "type": "string"
+        },
+        "identityConstraints": {
+          "$ref": "CertificateIdentityConstraints",
+          "description": "Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional. Labels with user-defined metadata.",
+          "type": "object"
+        },
+        "name": {
+          "description": "Output only. The resource name for this CertificateTemplate in the format `projects/*/locations/*/certificateTemplates/*`.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "passthroughExtensions": {
+          "$ref": "CertificateExtensionConstraints",
+          "description": "Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values."
+        },
+        "predefinedValues": {
+          "$ref": "X509Parameters",
+          "description": "Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail."
+        },
+        "updateTime": {
+          "description": "Output only. The time at which this CertificateTemplate was updated.",
+          "format": "google-datetime",
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "DisableCertificateAuthorityRequest": {
       "description": "Request message for CertificateAuthorityService.DisableCertificateAuthority.",
       "id": "DisableCertificateAuthorityRequest",
       "properties": {
         "requestId": {
           "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EcKeyType": {
+      "description": "Describes an Elliptic Curve key that may be used in a Certificate issued from a CaPool.",
+      "id": "EcKeyType",
+      "properties": {
+        "signatureAlgorithm": {
+          "description": "Optional. A signature algorithm that must be used. If this is omitted, any EC-based signature algorithm will be allowed.",
+          "enum": [
+            "EC_SIGNATURE_ALGORITHM_UNSPECIFIED",
+            "ECDSA_P256",
+            "ECDSA_P384",
+            "EDDSA_25519"
+          ],
+          "enumDescriptions": [
+            "Not specified. Signifies that any signature algorithm may be used.",
+            "Refers to the Elliptic Curve Digital Signature Algorithm over the NIST P-256 curve.",
+            "Refers to the Elliptic Curve Digital Signature Algorithm over the NIST P-384 curve.",
+            "Refers to the Edwards-curve Digital Signature Algorithm over curve 25519, as described in RFC 8410."
+          ],
           "type": "string"
         }
       },
@@ -1909,6 +2374,31 @@
       },
       "type": "object"
     },
+    "FetchCaCertsRequest": {
+      "description": "Request message for CertificateAuthorityService.FetchCaCerts.",
+      "id": "FetchCaCertsRequest",
+      "properties": {
+        "requestId": {
+          "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "FetchCaCertsResponse": {
+      "description": "Response message for CertificateAuthorityService.FetchCaCerts.",
+      "id": "FetchCaCertsResponse",
+      "properties": {
+        "caCerts": {
+          "description": "The PEM encoded CA certificate chains of all ACTIVE CertificateAuthority resources in this CaPool.",
+          "items": {
+            "$ref": "CertChain"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "FetchCertificateAuthorityCsrResponse": {
       "description": "Response message for CertificateAuthorityService.FetchCertificateAuthorityCsr.",
       "id": "FetchCertificateAuthorityCsrResponse",
@@ -1922,31 +2412,51 @@
       "type": "object"
     },
     "IssuanceModes": {
-      "description": "IssuanceModes specifies the allowed ways in which Certificates may be requested from this CertificateAuthority.",
+      "description": "IssuanceModes specifies the allowed ways in which Certificates may be requested from this CaPool.",
       "id": "IssuanceModes",
       "properties": {
         "allowConfigBasedIssuance": {
-          "description": "Required. When true, allows callers to create Certificates by specifying a CertificateConfig.",
+          "description": "Optional. When true, allows callers to create Certificates by specifying a CertificateConfig.",
           "type": "boolean"
         },
         "allowCsrBasedIssuance": {
-          "description": "Required. When true, allows callers to create Certificates by specifying a CSR.",
+          "description": "Optional. When true, allows callers to create Certificates by specifying a CSR.",
           "type": "boolean"
         }
       },
       "type": "object"
     },
-    "IssuingOptions": {
-      "description": "Options that affect all certificates issued by a CertificateAuthority.",
-      "id": "IssuingOptions",
+    "IssuancePolicy": {
+      "description": "Defines controls over all certificate issuance within a CaPool.",
+      "id": "IssuancePolicy",
       "properties": {
-        "includeCaCertUrl": {
-          "description": "Required. When true, includes a URL to the issuing CA certificate in the \"authority information access\" X.509 extension.",
-          "type": "boolean"
+        "allowedIssuanceModes": {
+          "$ref": "IssuanceModes",
+          "description": "Optional. If specified, then only methods allowed in the IssuanceModes may be used to issue Certificates."
         },
-        "includeCrlAccessUrl": {
-          "description": "Required. When true, includes a URL to the CRL corresponding to certificates issued from a CertificateAuthority. CRLs will expire 7 days from their creation. However, we will rebuild daily. CRLs are also rebuilt shortly after a certificate is revoked.",
-          "type": "boolean"
+        "allowedKeyTypes": {
+          "description": "Optional. If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here. Otherwise, any key may be used.",
+          "items": {
+            "$ref": "AllowedKeyType"
+          },
+          "type": "array"
+        },
+        "baselineValues": {
+          "$ref": "X509Parameters",
+          "description": "Optional. A set of X.509 values that will be applied to all certificates issued through this CaPool. If a certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If a certificate request uses a CertificateTemplate that defines conflicting predefined_values for the same properties, the certificate issuance request will fail."
+        },
+        "identityConstraints": {
+          "$ref": "CertificateIdentityConstraints",
+          "description": "Optional. Describes constraints on identities that may appear in Certificates issued through this CaPool. If this is omitted, then this CaPool will not add restrictions on a certificate's identity."
+        },
+        "maximumLifetime": {
+          "description": "Optional. The maximum lifetime allowed for issued Certificates. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.",
+          "format": "google-duration",
+          "type": "string"
+        },
+        "passthroughExtensions": {
+          "$ref": "CertificateExtensionConstraints",
+          "description": "Optional. Describes the set of X.509 extensions that may appear in a Certificate issued through this CaPool. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If a certificate request uses a CertificateTemplate with predefined_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this CaPool will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CaPool's baseline_values."
         }
       },
       "type": "object"
@@ -2032,7 +2542,7 @@
       "id": "KeyVersionSpec",
       "properties": {
         "algorithm": {
-          "description": "Required. The algorithm to use for creating a managed Cloud KMS key for a for a simplified experience. All managed keys will be have their ProtectionLevel as `HSM`.",
+          "description": "The algorithm to use for creating a managed Cloud KMS key for a for a simplified experience. All managed keys will be have their ProtectionLevel as `HSM`.",
           "enum": [
             "SIGN_HASH_ALGORITHM_UNSPECIFIED",
             "RSA_PSS_2048_SHA256",
@@ -2058,8 +2568,33 @@
           "type": "string"
         },
         "cloudKmsKeyVersion": {
-          "description": "Required. The resource name for an existing Cloud KMS CryptoKeyVersion in the format `projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*`. This option enables full flexibility in the key's capabilities and properties.",
+          "description": "The resource name for an existing Cloud KMS CryptoKeyVersion in the format `projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*`. This option enables full flexibility in the key's capabilities and properties.",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ListCaPoolsResponse": {
+      "description": "Response message for CertificateAuthorityService.ListCaPools.",
+      "id": "ListCaPoolsResponse",
+      "properties": {
+        "caPools": {
+          "description": "The list of CaPools.",
+          "items": {
+            "$ref": "CaPool"
+          },
+          "type": "array"
+        },
+        "nextPageToken": {
+          "description": "A token to retrieve next page of results. Pass this value in ListCertificateAuthoritiesRequest.next_page_token to retrieve the next page of results.",
+          "type": "string"
+        },
+        "unreachable": {
+          "description": "A list of locations (e.g. \"us-west1\") that could not be reached.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -2102,6 +2637,31 @@
         },
         "nextPageToken": {
           "description": "A token to retrieve next page of results. Pass this value in ListCertificateRevocationListsRequest.next_page_token to retrieve the next page of results.",
+          "type": "string"
+        },
+        "unreachable": {
+          "description": "A list of locations (e.g. \"us-west1\") that could not be reached.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ListCertificateTemplatesResponse": {
+      "description": "Response message for CertificateAuthorityService.ListCertificateTemplates.",
+      "id": "ListCertificateTemplatesResponse",
+      "properties": {
+        "certificateTemplates": {
+          "description": "The list of CertificateTemplates.",
+          "items": {
+            "$ref": "CertificateTemplate"
+          },
+          "type": "array"
+        },
+        "nextPageToken": {
+          "description": "A token to retrieve next page of results. Pass this value in ListCertificateTemplatesRequest.next_page_token to retrieve the next page of results.",
           "type": "string"
         },
         "unreachable": {
@@ -2169,31 +2729,6 @@
           "description": "A list of operations that matches the specified filter in the request.",
           "items": {
             "$ref": "Operation"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "ListReusableConfigsResponse": {
-      "description": "Response message for CertificateAuthorityService.ListReusableConfigs.",
-      "id": "ListReusableConfigsResponse",
-      "properties": {
-        "nextPageToken": {
-          "description": "A token to retrieve next page of results. Pass this value in ListReusableConfigsRequest.next_page_token to retrieve the next page of results.",
-          "type": "string"
-        },
-        "reusableConfigs": {
-          "description": "The list of ReusableConfigs.",
-          "items": {
-            "$ref": "ReusableConfig"
-          },
-          "type": "array"
-        },
-        "unreachable": {
-          "description": "A list of locations (e.g. \"us-west1\") that could not be reached.",
-          "items": {
-            "type": "string"
           },
           "type": "array"
         }
@@ -2363,24 +2898,37 @@
       "description": "A PublicKey describes a public key.",
       "id": "PublicKey",
       "properties": {
-        "key": {
-          "description": "Required. A public key. When this is specified in a request, the padding and encoding can be any of the options described by the respective 'KeyType' value. When this is generated by the service, it will always be an RFC 5280 [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) structure containing an algorithm identifier and a key.",
-          "format": "byte",
-          "type": "string"
-        },
-        "type": {
-          "description": "Optional. The type of public key. If specified, it must match the public key used for the`key` field.",
+        "format": {
+          "description": "Required. The format of the public key.",
           "enum": [
-            "KEY_TYPE_UNSPECIFIED",
-            "PEM_RSA_KEY",
-            "PEM_EC_KEY"
+            "KEY_FORMAT_UNSPECIFIED",
+            "PEM"
           ],
           "enumDescriptions": [
             "Default unspecified value.",
-            "A PEM-encoded PKCS#1/RFC 3447 RSAPublicKey structure, or an RFC 5280 [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) structure containing the former.",
-            "An RFC 5280 [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) structure containing a PEM-encoded compressed NIST P-256/secp256r1/prime256v1 or P-384 key."
+            "The key is PEM-encoded as defined in [RFC 7468](https://tools.ietf.org/html/rfc7468). It can be any of the following: a PEM-encoded PKCS#1/RFC 3447 RSAPublicKey structure, an RFC 5280 [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) or a PEM-encoded X.509 certificate signing request (CSR). If a [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) is specified, it can contain a A PEM-encoded PKCS#1/RFC 3447 RSAPublicKey or a NIST P-256/secp256r1/prime256v1 or P-384 key. If a CSR is specified, it will used solely for the purpose of extracting the public key. When generated by the service, it will always be an RFC 5280 [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) structure containing an algorithm identifier and a key."
           ],
           "type": "string"
+        },
+        "key": {
+          "description": "Required. A public key. The padding and encoding must match with the `KeyFormat` value specified for the `format` field.",
+          "format": "byte",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PublishingOptions": {
+      "description": "Options relating to the publication of each CertificateAuthority's CA certificate and CRLs and their inclusion as extensions in issued Certificates. The options set here apply to certificates issued by any CertificateAuthority in the CaPool.",
+      "id": "PublishingOptions",
+      "properties": {
+        "publishCaCert": {
+          "description": "Optional. When true, publishes each CertificateAuthority's CA certificate and includes its URL in the \"Authority Information Access\" X.509 extension in all issued Certificates. If this is false, the CA certificate will not be published and the corresponding X.509 extension will not be written in issued certificates.",
+          "type": "boolean"
+        },
+        "publishCrl": {
+          "description": "Optional. When true, publishes each CertificateAuthority's CRL and includes its URL in the \"CRL Distribution Points\" X.509 extension in all issued Certificates. If this is false, CRLs will not be published and the corresponding X.509 extension will not be written in issued certificates. CRLs will expire 7 days from their creation. However, we will rebuild daily. CRLs are also rebuilt shortly after a certificate is revoked.",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -2405,107 +2953,6 @@
             "This resource could not be repaired but the repair should be tried again at a later time. This can happen if there is a dependency that needs to be resolved first- e.g. if a parent resource must be repaired before a child resource."
           ],
           "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "RestoreCertificateAuthorityRequest": {
-      "description": "Request message for CertificateAuthorityService.RestoreCertificateAuthority.",
-      "id": "RestoreCertificateAuthorityRequest",
-      "properties": {
-        "requestId": {
-          "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "ReusableConfig": {
-      "description": "A ReusableConfig refers to a managed ReusableConfigValues. Those, in turn, are used to describe certain fields of an X.509 certificate, such as the key usage fields, fields specific to CA certificates, certificate policy extensions and custom extensions.",
-      "id": "ReusableConfig",
-      "properties": {
-        "createTime": {
-          "description": "Output only. The time at which this ReusableConfig was created.",
-          "format": "google-datetime",
-          "readOnly": true,
-          "type": "string"
-        },
-        "description": {
-          "description": "Optional. A human-readable description of scenarios these ReusableConfigValues may be compatible with.",
-          "type": "string"
-        },
-        "labels": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Optional. Labels with user-defined metadata.",
-          "type": "object"
-        },
-        "name": {
-          "description": "Output only. The resource path for this ReusableConfig in the format `projects/*/locations/*/reusableConfigs/*`.",
-          "readOnly": true,
-          "type": "string"
-        },
-        "updateTime": {
-          "description": "Output only. The time at which this ReusableConfig was updated.",
-          "format": "google-datetime",
-          "readOnly": true,
-          "type": "string"
-        },
-        "values": {
-          "$ref": "ReusableConfigValues",
-          "description": "Required. The config values."
-        }
-      },
-      "type": "object"
-    },
-    "ReusableConfigValues": {
-      "description": "A ReusableConfigValues is used to describe certain fields of an X.509 certificate, such as the key usage fields, fields specific to CA certificates, certificate policy extensions and custom extensions.",
-      "id": "ReusableConfigValues",
-      "properties": {
-        "additionalExtensions": {
-          "description": "Optional. Describes custom X.509 extensions.",
-          "items": {
-            "$ref": "X509Extension"
-          },
-          "type": "array"
-        },
-        "aiaOcspServers": {
-          "description": "Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the \"Authority Information Access\" extension in the certificate.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "caOptions": {
-          "$ref": "CaOptions",
-          "description": "Optional. Describes options in this ReusableConfigValues that are relevant in a CA certificate."
-        },
-        "keyUsage": {
-          "$ref": "KeyUsage",
-          "description": "Optional. Indicates the intended use for keys that correspond to a certificate."
-        },
-        "policyIds": {
-          "description": "Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.",
-          "items": {
-            "$ref": "ObjectId"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "ReusableConfigWrapper": {
-      "description": "A ReusableConfigWrapper describes values that may assist in creating an X.509 certificate, or a reference to a pre-defined set of values.",
-      "id": "ReusableConfigWrapper",
-      "properties": {
-        "reusableConfig": {
-          "description": "Required. A resource path to a ReusableConfig in the format `projects/*/locations/*/reusableConfigs/*`.",
-          "type": "string"
-        },
-        "reusableConfigValues": {
-          "$ref": "ReusableConfigValues",
-          "description": "Required. A user-specified inline ReusableConfigValues."
         }
       },
       "type": "object"
@@ -2590,7 +3037,7 @@
       "id": "RevokedCertificate",
       "properties": {
         "certificate": {
-          "description": "The resource path for the Certificate in the format `projects/*/locations/*/certificateAuthorities/*/certificates/*`.",
+          "description": "The resource name for the Certificate in the format `projects/*/locations/*/caPools/*/certificates/*`.",
           "type": "string"
         },
         "hexSerialNumber": {
@@ -2626,16 +3073,18 @@
       },
       "type": "object"
     },
-    "ScheduleDeleteCertificateAuthorityRequest": {
-      "description": "Request message for CertificateAuthorityService.ScheduleDeleteCertificateAuthority.",
-      "id": "ScheduleDeleteCertificateAuthorityRequest",
+    "RsaKeyType": {
+      "description": "Describes an RSA key that may be used in a Certificate issued from a CaPool.",
+      "id": "RsaKeyType",
       "properties": {
-        "ignoreActiveCertificates": {
-          "description": "Optional. This field allows the CA to be scheduled for deletion even if the CA has active certs. Active certs include both unrevoked and unexpired certs.",
-          "type": "boolean"
+        "maxModulusSize": {
+          "description": "Optional. The maximum allowed RSA modulus size, in bits. If this is not set, or if set to zero, the service will not enforce an explicit upper bound on RSA modulus sizes.",
+          "format": "int64",
+          "type": "string"
         },
-        "requestId": {
-          "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+        "minModulusSize": {
+          "description": "Optional. The minimum allowed RSA modulus size, in bits. If this is not set, or if set to zero, the service-level min RSA modulus size will continue to apply.",
+          "format": "int64",
           "type": "string"
         }
       },
@@ -2688,6 +3137,10 @@
       "description": "Subject describes parts of a distinguished name that, in turn, describes the subject of the certificate.",
       "id": "Subject",
       "properties": {
+        "commonName": {
+          "description": "The \"common name\" of the subject.",
+          "type": "string"
+        },
         "countryCode": {
           "description": "The country code of the subject.",
           "type": "string"
@@ -2765,13 +3218,9 @@
       "description": "These values are used to create the distinguished name and subject alternative name fields in an X.509 certificate.",
       "id": "SubjectConfig",
       "properties": {
-        "commonName": {
-          "description": "Optional. The \"common name\" of the distinguished name.",
-          "type": "string"
-        },
         "subject": {
           "$ref": "Subject",
-          "description": "Required. Contains distinguished name fields such as the location and organization."
+          "description": "Required. Contains distinguished name fields such as the common name, location and organization."
         },
         "subjectAltName": {
           "$ref": "SubjectAltNames",
@@ -2784,10 +3233,6 @@
       "description": "These values describe fields in an issued X.509 certificate such as the distinguished name, subject alternative names, serial number, and lifetime.",
       "id": "SubjectDescription",
       "properties": {
-        "commonName": {
-          "description": "The \"common name\" of the distinguished name.",
-          "type": "string"
-        },
         "hexSerialNumber": {
           "description": "The serial number encoded in lowercase hexadecimal.",
           "type": "string"
@@ -2809,7 +3254,7 @@
         },
         "subject": {
           "$ref": "Subject",
-          "description": "Contains distinguished name fields such as the location and organization."
+          "description": "Contains distinguished name fields such as the common name, location and / organization."
         },
         "subjectAltName": {
           "$ref": "SubjectAltNames",
@@ -2819,11 +3264,11 @@
       "type": "object"
     },
     "SubordinateConfig": {
-      "description": "Describes a subordinate CA's issuers. This is either a resource path to a known issuing CertificateAuthority, or a PEM issuer certificate chain.",
+      "description": "Describes a subordinate CA's issuers. This is either a resource name to a known issuing CertificateAuthority, or a PEM issuer certificate chain.",
       "id": "SubordinateConfig",
       "properties": {
         "certificateAuthority": {
-          "description": "Required. This can refer to a CertificateAuthority in the same project that was used to create a subordinate CertificateAuthority. This field is used for information and usability purposes only. The resource name is in the format `projects/*/locations/*/certificateAuthorities/*`.",
+          "description": "Required. This can refer to a CertificateAuthority in the same project that was used to create a subordinate CertificateAuthority. This field is used for information and usability purposes only. The resource name is in the format `projects/*/locations/*/caPools/*/certificateAuthorities/*`.",
           "type": "string"
         },
         "pemIssuerChain": {
@@ -2875,12 +3320,23 @@
       },
       "type": "object"
     },
+    "UndeleteCertificateAuthorityRequest": {
+      "description": "Request message for CertificateAuthorityService.UndeleteCertificateAuthority.",
+      "id": "UndeleteCertificateAuthorityRequest",
+      "properties": {
+        "requestId": {
+          "description": "Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "X509Extension": {
       "description": "An X509Extension specifies an X.509 extension, which may be used in different parts of X.509 objects like certificates, CSRs, and CRLs.",
       "id": "X509Extension",
       "properties": {
         "critical": {
-          "description": "Required. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).",
+          "description": "Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).",
           "type": "boolean"
         },
         "objectId": {
@@ -2894,10 +3350,46 @@
         }
       },
       "type": "object"
+    },
+    "X509Parameters": {
+      "description": "An X509Parameters is used to describe certain fields of an X.509 certificate, such as the key usage fields, fields specific to CA certificates, certificate policy extensions and custom extensions.",
+      "id": "X509Parameters",
+      "properties": {
+        "additionalExtensions": {
+          "description": "Optional. Describes custom X.509 extensions.",
+          "items": {
+            "$ref": "X509Extension"
+          },
+          "type": "array"
+        },
+        "aiaOcspServers": {
+          "description": "Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the \"Authority Information Access\" extension in the certificate.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "caOptions": {
+          "$ref": "CaOptions",
+          "description": "Optional. Describes options in this X509Parameters that are relevant in a CA certificate."
+        },
+        "keyUsage": {
+          "$ref": "KeyUsage",
+          "description": "Optional. Indicates the intended use for keys that correspond to a certificate."
+        },
+        "policyIds": {
+          "description": "Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.",
+          "items": {
+            "$ref": "ObjectId"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
     }
   },
   "servicePath": "",
   "title": "Certificate Authority API",
-  "version": "v1beta1",
+  "version": "v1",
   "version_module": true
 }
