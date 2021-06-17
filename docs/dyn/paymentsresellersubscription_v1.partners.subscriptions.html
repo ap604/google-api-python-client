@@ -97,7 +97,7 @@ h1, h2, h3 {
 <p class="firstline">Used by partners to provision a subscription for their customers. This creates a subscription without associating it with the end user account. EntitleSubscription must be called separately using OAuth in order for the end user account to be associated with the subscription. It should be called directly by the partner using service accounts.</p>
 <p class="toc_element">
   <code><a href="#undoCancel">undoCancel(name, body=None, x__xgafv=None)</a></code></p>
-<p class="firstline">Used by partners to revoke the pending cancellation of a subscription, which is currently in `STATE_WAITING_TO_CANCEL` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts.</p>
+<p class="firstline">Used by partners to revoke the pending cancellation of a subscription, which is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts.</p>
 <h3>Method Details</h3>
 <div class="method">
     <code class="details" id="cancel">cancel(name, body=None, x__xgafv=None)</code>
@@ -131,7 +131,7 @@ Returns:
     &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
     &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
     &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-    &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+    &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
     &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
       &quot;A String&quot;,
     ],
@@ -145,6 +145,10 @@ Returns:
     },
     &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
     &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+    &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+      &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+      &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+    },
   },
 }</pre>
 </div>
@@ -172,7 +176,7 @@ Args:
   &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
   &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
   &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
   &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
     &quot;A String&quot;,
   ],
@@ -186,9 +190,13 @@ Args:
   },
   &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
   &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+  &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+    &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+    &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+  },
 }
 
-  subscriptionId: string, Required. Identifies the subscription resource on the Partner side. If a subscription was previously created with the same subscription_id, we will directly return that one.
+  subscriptionId: string, Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription was previously created with the same subscription_id, we will directly return that one.
   x__xgafv: string, V1 error format.
     Allowed values
       1 - v1 error format
@@ -206,7 +214,7 @@ Returns:
   &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
   &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
   &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
   &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
     &quot;A String&quot;,
   ],
@@ -220,6 +228,10 @@ Returns:
   },
   &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
   &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+  &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+    &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+    &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+  },
 }</pre>
 </div>
 
@@ -253,7 +265,7 @@ Returns:
     &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
     &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
     &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-    &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+    &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
     &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
       &quot;A String&quot;,
     ],
@@ -267,6 +279,10 @@ Returns:
     },
     &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
     &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+    &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+      &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+      &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+    },
   },
 }</pre>
 </div>
@@ -328,7 +344,7 @@ Returns:
   &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
   &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
   &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
   &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
     &quot;A String&quot;,
   ],
@@ -342,6 +358,10 @@ Returns:
   },
   &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
   &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+  &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+    &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+    &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+  },
 }</pre>
 </div>
 
@@ -363,7 +383,7 @@ Args:
   &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
   &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
   &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
   &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
     &quot;A String&quot;,
   ],
@@ -377,9 +397,13 @@ Args:
   },
   &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
   &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+  &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+    &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+    &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+  },
 }
 
-  subscriptionId: string, Required. Identifies the subscription resource on the Partner side. If a subscription was previously created with the same subscription_id, we will directly return that one.
+  subscriptionId: string, Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription was previously created with the same subscription_id, we will directly return that one.
   x__xgafv: string, V1 error format.
     Allowed values
       1 - v1 error format
@@ -397,7 +421,7 @@ Returns:
   &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
   &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
   &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+  &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
   &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
     &quot;A String&quot;,
   ],
@@ -411,12 +435,16 @@ Returns:
   },
   &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
   &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+  &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+    &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+    &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+  },
 }</pre>
 </div>
 
 <div class="method">
     <code class="details" id="undoCancel">undoCancel(name, body=None, x__xgafv=None)</code>
-  <pre>Used by partners to revoke the pending cancellation of a subscription, which is currently in `STATE_WAITING_TO_CANCEL` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts.
+  <pre>Used by partners to revoke the pending cancellation of a subscription, which is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts.
 
 Args:
   name: string, Required. The name of the subscription resource whose pending cancellation needs to be undone. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot; (required)
@@ -444,7 +472,7 @@ Returns:
     &quot;endUserEntitled&quot;: True or False, # Output only. Indicates if the subscription is entitled to the end user.
     &quot;freeTrialEndTime&quot;: &quot;A String&quot;, # Output only. End of the free trial period, in ISO 8061 format. For example, &quot;2019-08-31T17:28:54.564Z&quot;. It will be set the same as createTime if no free trial promotion is specified.
     &quot;name&quot;: &quot;A String&quot;, # Output only. Response only. Resource name of the subscription. It will have the format of &quot;partners/{partner_id}/subscriptions/{subscription_id}&quot;
-    &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system.
+    &quot;partnerUserToken&quot;: &quot;A String&quot;, # Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum.
     &quot;products&quot;: [ # Required. Resource name that identifies one or more subscription products. The format will be &#x27;partners/{partner_id}/products/{product_id}&#x27;.
       &quot;A String&quot;,
     ],
@@ -458,6 +486,10 @@ Returns:
     },
     &quot;state&quot;: &quot;A String&quot;, # Output only. Descibes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle).
     &quot;updateTime&quot;: &quot;A String&quot;, # Output only. System generated timestamp when the subscription is most recently updated. UTC timezone.
+    &quot;upgradeDowngradeDetails&quot;: { # Details about the previous subscription that this new subscription upgrades/downgrades from. # Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription.
+      &quot;billingCycleSpec&quot;: &quot;A String&quot;, # Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.
+      &quot;previousSubscriptionId&quot;: &quot;A String&quot;, # Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.
+    },
   },
 }</pre>
 </div>

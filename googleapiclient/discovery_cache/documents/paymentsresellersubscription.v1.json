@@ -221,7 +221,7 @@
                   "type": "string"
                 },
                 "subscriptionId": {
-                  "description": "Required. Identifies the subscription resource on the Partner side. If a subscription was previously created with the same subscription_id, we will directly return that one.",
+                  "description": "Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription was previously created with the same subscription_id, we will directly return that one.",
                   "location": "query",
                   "type": "string"
                 }
@@ -323,7 +323,7 @@
                   "type": "string"
                 },
                 "subscriptionId": {
-                  "description": "Required. Identifies the subscription resource on the Partner side. If a subscription was previously created with the same subscription_id, we will directly return that one.",
+                  "description": "Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription was previously created with the same subscription_id, we will directly return that one.",
                   "location": "query",
                   "type": "string"
                 }
@@ -337,7 +337,7 @@
               }
             },
             "undoCancel": {
-              "description": "Used by partners to revoke the pending cancellation of a subscription, which is currently in `STATE_WAITING_TO_CANCEL` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts.",
+              "description": "Used by partners to revoke the pending cancellation of a subscription, which is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts.",
               "flatPath": "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:undoCancel",
               "httpMethod": "POST",
               "id": "paymentsresellersubscription.partners.subscriptions.undoCancel",
@@ -366,7 +366,7 @@
       }
     }
   },
-  "revision": "20210428",
+  "revision": "20210616",
   "rootUrl": "https://paymentsresellersubscription.googleapis.com/",
   "schemas": {
     "GoogleCloudPaymentsResellerSubscriptionV1CancelSubscriptionRequest": {
@@ -385,6 +385,7 @@
             "CANCELLATION_REASON_ACCIDENTAL_PURCHASE",
             "CANCELLATION_REASON_PAST_DUE",
             "CANCELLATION_REASON_ACCOUNT_CLOSED",
+            "CANCELLATION_REASON_UPGRADE_DOWNGRADE",
             "CANCELLATION_REASON_OTHER"
           ],
           "enumDescriptions": [
@@ -394,6 +395,7 @@
             "Accidential purchase.",
             "Payment is past due.",
             "User account closed.",
+            "Used for notification only, do not use in Cancel API. Cancallation due to upgrade or downgrade.",
             "Other reason."
           ],
           "type": "string"
@@ -670,7 +672,7 @@
           "type": "string"
         },
         "partnerUserToken": {
-          "description": "Required. Identifier of the end-user in partner\u2019s system.",
+          "description": "Required. Identifier of the end-user in partner\u2019s system. The value is restricted to 63 ASCII characters at the maximum.",
           "type": "string"
         },
         "products": {
@@ -722,6 +724,10 @@
           "format": "google-datetime",
           "readOnly": true,
           "type": "string"
+        },
+        "upgradeDowngradeDetails": {
+          "$ref": "GoogleCloudPaymentsResellerSubscriptionV1SubscriptionUpgradeDowngradeDetails",
+          "description": "Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription."
         }
       },
       "type": "object"
@@ -739,6 +745,7 @@
             "CANCELLATION_REASON_ACCIDENTAL_PURCHASE",
             "CANCELLATION_REASON_PAST_DUE",
             "CANCELLATION_REASON_ACCOUNT_CLOSED",
+            "CANCELLATION_REASON_UPGRADE_DOWNGRADE",
             "CANCELLATION_REASON_OTHER"
           ],
           "enumDescriptions": [
@@ -748,8 +755,34 @@
             "Accidential purchase.",
             "Payment is past due.",
             "User account closed.",
+            "Used for notification only, do not use in Cancel API. Cancallation due to upgrade or downgrade.",
             "Other reason."
           ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GoogleCloudPaymentsResellerSubscriptionV1SubscriptionUpgradeDowngradeDetails": {
+      "description": "Details about the previous subscription that this new subscription upgrades/downgrades from.",
+      "id": "GoogleCloudPaymentsResellerSubscriptionV1SubscriptionUpgradeDowngradeDetails",
+      "properties": {
+        "billingCycleSpec": {
+          "description": "Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription.",
+          "enum": [
+            "BILLING_CYCLE_SPEC_UNSPECIFIED",
+            "BILLING_CYCLE_SPEC_ALIGN_WITH_PREVIOUS_SUBSCRIPTION",
+            "BILLING_CYCLE_SPEC_START_IMMEDIATELY"
+          ],
+          "enumDescriptions": [
+            "Billing cycle spec is not specified.",
+            "The billing cycle of the new subscription aligns with the previous subscription it upgrades or downgrades from.",
+            "The billing cycle of the new subscription starts immediately."
+          ],
+          "type": "string"
+        },
+        "previousSubscriptionId": {
+          "description": "Required. The previous subscription id to be replaced. This is not the full resource name, use the subscription_id segment only.",
           "type": "string"
         }
       },
