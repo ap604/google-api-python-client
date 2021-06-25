@@ -371,7 +371,7 @@ Args:
           },
         },
         &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
             &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
           },
           &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -443,7 +443,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -479,7 +480,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -546,7 +548,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -823,7 +826,7 @@ Returns:
           },
         },
         &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
             &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
           },
           &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -895,7 +898,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -931,7 +935,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -998,7 +1003,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -1302,7 +1308,7 @@ Returns:
           },
         },
         &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
             &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
           },
           &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -1374,7 +1380,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -1410,7 +1417,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -1477,7 +1485,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -1845,7 +1854,7 @@ Args:
           },
         },
         &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
             &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
           },
           &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -1917,7 +1926,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -1953,7 +1963,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -2020,7 +2031,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -2338,7 +2350,7 @@ Returns:
               },
             },
             &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-              &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+              &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
                 &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
               },
               &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -2410,7 +2422,8 @@ Returns:
                 { # A reference to a Compute Engine instance.
                   &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
                   &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-                  &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+                  &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+                  &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
                 },
               ],
               &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -2446,7 +2459,8 @@ Returns:
                 { # A reference to a Compute Engine instance.
                   &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
                   &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-                  &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+                  &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+                  &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
                 },
               ],
               &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -2513,7 +2527,8 @@ Returns:
                 { # A reference to a Compute Engine instance.
                   &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
                   &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-                  &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+                  &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+                  &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
                 },
               ],
               &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -2896,7 +2911,7 @@ Args:
           },
         },
         &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
             &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
           },
           &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -2968,7 +2983,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -3004,7 +3020,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -3071,7 +3088,8 @@ Args:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -3348,7 +3366,7 @@ Returns:
           },
         },
         &quot;gceClusterConfig&quot;: { # Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. # Optional. The shared Compute Engine config settings for all instances in a cluster.
-          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) NEXT ID: 2 # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs)
+          &quot;confidentialInstanceConfig&quot;: { # Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs) # Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/compute/confidential-vm/docs).
             &quot;enableConfidentialCompute&quot;: True or False, # Optional. Defines whether the instance should have confidential compute enabled.
           },
           &quot;internalIpOnly&quot;: True or False, # Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
@@ -3420,7 +3438,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -3456,7 +3475,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
@@ -3523,7 +3543,8 @@ Returns:
             { # A reference to a Compute Engine instance.
               &quot;instanceId&quot;: &quot;A String&quot;, # The unique identifier of the Compute Engine instance.
               &quot;instanceName&quot;: &quot;A String&quot;, # The user-friendly name of the Compute Engine instance.
-              &quot;publicKey&quot;: &quot;A String&quot;, # The public key used for sharing data with this instance.
+              &quot;publicEciesKey&quot;: &quot;A String&quot;, # The public ECIES key used for sharing data with this instance.
+              &quot;publicKey&quot;: &quot;A String&quot;, # The public RSA key used for sharing data with this instance.
             },
           ],
           &quot;isPreemptible&quot;: True or False, # Output only. Specifies that this instance group contains preemptible instances.
