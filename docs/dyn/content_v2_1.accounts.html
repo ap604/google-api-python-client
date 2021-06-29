@@ -257,9 +257,9 @@ Args:
       ],
       &quot;linkRequest&quot;: { # Details about the `link` request.
         &quot;action&quot;: &quot;A String&quot;, # Action to perform for this link. The `&quot;request&quot;` action is only available to select merchants. Acceptable values are: - &quot;`approve`&quot; - &quot;`remove`&quot; - &quot;`request`&quot;
-        &quot;linkType&quot;: &quot;A String&quot;, # Type of the link between the two accounts. Acceptable values are: - &quot;`channelPartner`&quot; - &quot;`eCommercePlatform`&quot;
+        &quot;linkType&quot;: &quot;A String&quot;, # Type of the link between the two accounts. Acceptable values are: - &quot;`channelPartner`&quot; - &quot;`eCommercePlatform`&quot; - &quot;`paymentServiceProvider`&quot;
         &quot;linkedAccountId&quot;: &quot;A String&quot;, # The ID of the linked account.
-        &quot;services&quot;: [ # Provided services. Acceptable values are: - &quot;`shoppingAdsProductManagement`&quot; - &quot;`shoppingActionsProductManagement`&quot; - &quot;`shoppingActionsOrderManagement`&quot;
+        &quot;services&quot;: [ # Provided services. Acceptable values are: - &quot;`shoppingAdsProductManagement`&quot; - &quot;`shoppingActionsProductManagement`&quot; - &quot;`shoppingActionsOrderManagement`&quot; - &quot;`paymentProcessing`&quot;
           &quot;A String&quot;,
         ],
       },
@@ -723,7 +723,7 @@ Returns:
 Args:
   merchantId: string, The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. (required)
   accountId: string, The ID of the account for which to list links. (required)
-  maxResults: integer, The maximum number of links to return in the response, used for pagination.
+  maxResults: integer, The maximum number of links to return in the response, used for pagination. The minimum allowed value is 5 results per page. If provided value is lower than 5, it will be automatically increased to 5.
   pageToken: string, The token returned by the previous request.
   x__xgafv: string, V1 error format.
     Allowed values
